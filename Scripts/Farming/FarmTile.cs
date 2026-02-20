@@ -99,6 +99,9 @@ namespace Farming
                 if(tileCondition == FarmTile.Condition.Watered) tileCondition = FarmTile.Condition.Tilled;
                 else if(tileCondition == FarmTile.Condition.Tilled) tileCondition = FarmTile.Condition.Grass;
             }
+            // Call this method after resetting the tiles to grass
+            FindObjectOfType<Farmer>().CheckTilesResetToGrass();
+
             UpdateVisual();
         }
     }

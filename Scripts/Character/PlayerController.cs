@@ -56,8 +56,8 @@ namespace Character
 
         public void OnInteract(InputValue value)
         { 
-            FarmTile tile = tileSelector.GetSelectedTile();
-            farmer.TryTileInteraction(tile);
+            Debug.Log("Interact");
+            farmer.TryTileInteraction();
             /*
             FarmTile tile = tileSelector.GetSelectedTile();
             if (tile != null)

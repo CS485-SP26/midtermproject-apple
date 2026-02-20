@@ -1,13 +1,15 @@
 using UnityEngine;
 using Character;
-
+using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Farming
 {
     [RequireComponent(typeof(AnimatedController))]
     public class Farmer : MonoBehaviour
     {
-        //[SerializeField] private TileSelector tileSelector;
+        [SerializeField] private TileSelector tileSelector;
         [SerializeField] private GameObject gardenHoe;
         [SerializeField] private GameObject waterCan;
         [SerializeField] private GameObject waterSourceObject;
@@ -17,6 +19,19 @@ namespace Farming
 
         //MovementController moveController;
         AnimatedController animatedController;
+
+        [SerializeField] private List<FarmTile> farmTiles; // List of all farm tiles
+
+        [SerializeField] private float rewardAmount = 50f; // Amount to award when all tiles are watered
+
+        private bool rewardGiven = false;
+
+        [SerializeField] private TMP_Text congratulationsText; // TMP Text to display the congratulations message
+        [SerializeField] private TMP_Text fundsText; // TMP Text to display current funds
+
+        private float playerFunds = 100f; // Starting funds
+
+        private float congratulationsDuration = 3f; // Duration to show the congratulations message (in seconds)
 
         void Start()
         {
@@ -35,6 +50,11 @@ namespace Farming
             
             animatedController = GetComponentInChildren<AnimatedController>();
             waterLevelUI.setText("Water Level");
+
+            // Collect all tiles in the scene
+            farmTiles = new List<FarmTile>(Object.FindObjectsByType<FarmTile>(FindObjectsSortMode.None));
+            UpdateFundsText(); // Update the funds display initially
+
         }
         
         public void SetTool(string tool)
@@ -48,10 +68,10 @@ namespace Farming
             }
         }
        
-        public void TryTileInteraction(FarmTile tile)
+        public void TryTileInteraction()
         {
             Debug.Log("TryTileInteraction called");
-            //FarmTile tile = tileSelector.GetSelectedTile();
+            FarmTile tile = tileSelector.GetSelectedTile();
             if(tile == null) return;
             // updates the condition, play the anim after
             switch (tile.GetCondition)
@@ -71,7 +91,8 @@ namespace Farming
                     break;
                 default: break;
             }
-            
+            // Check if all tiles are watered
+            CheckWinCondition();
         }
 
         public void OnTriggerEnter(Collider other)
@@ -94,6 +115,83 @@ namespace Farming
             }
         }
         
+        private void CheckWinCondition()
+        {
+            if (rewardGiven) return;
+
+            bool allWatered = true;
+            foreach (var tile in farmTiles)
+            {
+                if (tile.GetCondition != FarmTile.Condition.Watered)
+                {
+                    allWatered = false;
+                    break;
+                }
+            }
+
+            if (allWatered)
+            {
+                DisplayWinMessage();
+                AwardFunds();
+            }
+        }
+
+        private void DisplayWinMessage()
+        {
+            // Display the congratulations message in the UI (TMP)
+            congratulationsText.text = "Congratulations! All tiles are watered.";
+            congratulationsText.gameObject.SetActive(true); // Make sure the message is visible
+
+            // Start the coroutine to hide the message after a few seconds
+            StartCoroutine(HideCongratulationsMessage());
+        }
+
+        private IEnumerator HideCongratulationsMessage()
+        {
+            // Wait for the specified duration
+            yield return new WaitForSeconds(congratulationsDuration);
+
+            // Hide the message after the wait
+            congratulationsText.gameObject.SetActive(false);
+        }
+
+        private void AwardFunds()
+        {
+            // Award funds to the player, only once
+            if (!rewardGiven)
+            {
+                rewardGiven = true;
+                playerFunds += rewardAmount; // Add the reward to the player's funds
+                Debug.Log($"You have been awarded {rewardAmount} funds!");
+                UpdateFundsText(); // Update the funds display
+            }
+        }
+
+        // Update the funds text UI element (TMP)
+        private void UpdateFundsText()
+        {
+            // Set the UI text in the following format:  "Funds: $100"
+            fundsText.text = $"Funds: ${playerFunds:F0}"; // F0 formats the number without decimal points
+        }
+
+        // This method will be called to reset the reward condition when all tiles are back to grass
+        public void CheckTilesResetToGrass()
+        {
+            bool allGrass = true;
+            foreach (var tile in farmTiles)
+            {
+                if (tile.GetCondition != FarmTile.Condition.Grass)
+                {
+                    allGrass = false;
+                    break;
+                }
+            }
+
+            if (allGrass)
+            {
+                rewardGiven = false; // Reset the reward condition once all tiles are grass again
+            }
+        }
     }
 }
 
