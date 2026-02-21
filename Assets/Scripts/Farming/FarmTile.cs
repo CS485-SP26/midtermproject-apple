@@ -14,14 +14,15 @@ namespace Farming
         [SerializeField] private Material grassMaterial;
         [SerializeField] private Material tilledMaterial;
         [SerializeField] private Material wateredMaterial;
-        MeshRenderer tileRenderer;
+        private MeshRenderer tileRenderer;
 
         [Header("Audio")]
         [SerializeField] private AudioSource stepAudio;
         [SerializeField] private AudioSource tillAudio;
         [SerializeField] private AudioSource waterAudio;
 
-        List<Material> materials = new List<Material>();
+        private readonly List<Material> materials = new List<Material>();
+        private Farmer farmer;
 
         private int daysSinceLastInteraction = 0;
         public FarmTile.Condition GetCondition { get { return tileCondition; } } // TODO: Consider what the set would do?
@@ -30,10 +31,17 @@ namespace Farming
         {
             tileRenderer = GetComponent<MeshRenderer>();
             Debug.Assert(tileRenderer, "FarmTile requires a MeshRenderer");
+            farmer = FindFirstObjectByType<Farmer>();
+
+            materials.Clear();
+            materials.Capacity = transform.childCount;
 
             foreach (Transform edge in transform)
             {
-                materials.Add(edge.gameObject.GetComponent<MeshRenderer>().material);
+                if (edge.TryGetComponent<MeshRenderer>(out var edgeRenderer))
+                {
+                    materials.Add(edgeRenderer.material);
+                }
             }
         }
 
@@ -99,8 +107,7 @@ namespace Farming
                 if(tileCondition == FarmTile.Condition.Watered) tileCondition = FarmTile.Condition.Tilled;
                 else if(tileCondition == FarmTile.Condition.Tilled) tileCondition = FarmTile.Condition.Grass;
             }
-            // Call this method after resetting the tiles to grass
-            FindObjectOfType<Farmer>().CheckTilesResetToGrass();
+            farmer?.CheckTilesResetToGrass();
 
             UpdateVisual();
         }

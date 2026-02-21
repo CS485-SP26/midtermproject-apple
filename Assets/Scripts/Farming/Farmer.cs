@@ -45,8 +45,7 @@ namespace Farming
             if(animatedController == null)
                 Debug.LogError("Farmer requires an AnimatedController! Animation will not play.");
             Debug.Assert(waterLevelUI, "Farmer requires an waterLevel");
-            
-            animatedController = GetComponentInChildren<AnimatedController>();
+
             waterLevelUI.setText("Water Level");
 
             // Collect all tiles in the scene

@@ -17,7 +17,7 @@ public class BuyItem : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if((other.GetComponent<PlayerController>() != null))
+        if (other.TryGetComponent<PlayerController>(out _))
         {
             playerInside = true;
             ButtonUI.SetActive(true);
@@ -26,7 +26,7 @@ public class BuyItem : MonoBehaviour
     }
     public void OnTriggerExit(Collider other)
     {
-        if((other.GetComponent<PlayerController>() != null))
+        if (other.TryGetComponent<PlayerController>(out _))
         {
             playerInside = false;
             ButtonUI.SetActive(false);
