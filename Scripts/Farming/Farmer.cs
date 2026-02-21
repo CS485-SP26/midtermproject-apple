@@ -3,7 +3,7 @@ using Character;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
-
+using Core;
 namespace Farming
 {
     [RequireComponent(typeof(AnimatedController))]
@@ -27,11 +27,9 @@ namespace Farming
         private bool rewardGiven = false;
 
         [SerializeField] private TMP_Text congratulationsText; // TMP Text to display the congratulations message
-        [SerializeField] private TMP_Text fundsText; // TMP Text to display current funds
-
-        private float playerFunds = 100f; // Starting funds
 
         private float congratulationsDuration = 3f; // Duration to show the congratulations message (in seconds)
+        [SerializeField] private TMP_Text waterRefillText;
 
         void Start()
         {
@@ -53,8 +51,6 @@ namespace Farming
 
             // Collect all tiles in the scene
             farmTiles = new List<FarmTile>(Object.FindObjectsByType<FarmTile>(FindObjectsSortMode.None));
-            UpdateFundsText(); // Update the funds display initially
-
         }
         
         public void SetTool(string tool)
@@ -87,12 +83,41 @@ namespace Farming
                         tile.Interact();
                         waterLevel -= waterPerUse;
                         waterLevelUI.Fill = waterLevel;
+                        if(waterLevel <= 0.1)
+                        {
+                            DisplayWaterLow();
+                        }
+                    }
+                    else
+                    {
+                        DisplayWaterLow();
                     }
                     break;
                 default: break;
             }
             // Check if all tiles are watered
             CheckWinCondition();
+        }
+
+        public void DisplayWaterLow()
+        {
+            waterRefillText.text = "Water low";
+            waterRefillText.gameObject.SetActive(true);
+            StartCoroutine(HideWaterMessage());
+        }
+        public void DisplayWaterRefilled()
+        {
+            waterRefillText.text = "Water Refilled";
+            waterRefillText.gameObject.SetActive(true);
+            StartCoroutine(HideWaterMessage());
+        }
+        private IEnumerator HideWaterMessage()
+        {
+            // Wait for the specified duration
+            yield return new WaitForSeconds(congratulationsDuration);
+
+            // Hide the message after the wait
+            waterRefillText.gameObject.SetActive(false);
         }
 
         public void OnTriggerEnter(Collider other)
@@ -103,7 +128,9 @@ namespace Farming
                 if (waterLevel < 1f)
                 {
                     waterLevel = 1f;
-                    waterLevelUI.Fill = waterLevel;  
+                    waterLevelUI.Fill = waterLevel;
+                    DisplayWaterRefilled();  
+ 
                 }
             }
         }
@@ -161,17 +188,9 @@ namespace Farming
             if (!rewardGiven)
             {
                 rewardGiven = true;
-                playerFunds += rewardAmount; // Add the reward to the player's funds
+                GameManager.Instance.AddFunds(50);
                 Debug.Log($"You have been awarded {rewardAmount} funds!");
-                UpdateFundsText(); // Update the funds display
             }
-        }
-
-        // Update the funds text UI element (TMP)
-        private void UpdateFundsText()
-        {
-            // Set the UI text in the following format:  "Funds: $100"
-            fundsText.text = $"Funds: ${playerFunds:F0}"; // F0 formats the number without decimal points
         }
 
         // This method will be called to reset the reward condition when all tiles are back to grass
