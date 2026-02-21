@@ -7,15 +7,21 @@ namespace Character
     {
         [SerializeField] public GameObject player;
         [SerializeField] private Vector3 offset = new(0f, 0f, -3f);
+        private Transform playerTransform;
 
         void Start()
         {
             Debug.Assert(player, "CameraFollow requires a player (GameObject).");
+            if (player != null)
+            {
+                playerTransform = player.transform;
+            }
         }
 
         void LateUpdate()
         {
-            transform.position = player.transform.position + offset;         
+            if (playerTransform == null) return;
+            transform.position = playerTransform.position + offset;         
         }
     }
 }

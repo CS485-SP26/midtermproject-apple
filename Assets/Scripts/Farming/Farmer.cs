@@ -30,6 +30,7 @@ namespace Farming
 
         private float congratulationsDuration = 3f; // Duration to show the congratulations message (in seconds)
         [SerializeField] private TMP_Text waterRefillText;
+        private WaitForSeconds messageDelay;
 
         void Start()
         {
@@ -47,6 +48,7 @@ namespace Farming
             Debug.Assert(waterLevelUI, "Farmer requires an waterLevel");
 
             waterLevelUI.setText("Water Level");
+            messageDelay = new WaitForSeconds(congratulationsDuration);
 
             // Collect all tiles in the scene
             farmTiles = new List<FarmTile>(Object.FindObjectsByType<FarmTile>(FindObjectsSortMode.None));
@@ -65,7 +67,6 @@ namespace Farming
        
         public void TryTileInteraction()
         {
-            Debug.Log("TryTileInteraction called");
             FarmTile tile = tileSelector.GetSelectedTile();
             if(tile == null) return;
             // updates the condition, play the anim after
@@ -113,7 +114,7 @@ namespace Farming
         private IEnumerator HideWaterMessage()
         {
             // Wait for the specified duration
-            yield return new WaitForSeconds(congratulationsDuration);
+            yield return messageDelay;
 
             // Hide the message after the wait
             waterRefillText.gameObject.SetActive(false);
@@ -174,7 +175,7 @@ namespace Farming
         private IEnumerator HideCongratulationsMessage()
         {
             // Wait for the specified duration
-            yield return new WaitForSeconds(congratulationsDuration);
+            yield return messageDelay;
 
             // Hide the message after the wait
             congratulationsText.gameObject.SetActive(false);

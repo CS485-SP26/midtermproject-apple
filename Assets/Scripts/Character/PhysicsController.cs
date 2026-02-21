@@ -6,13 +6,13 @@ namespace Character
     public class PhysicsMovement : MovementController
     {
         [SerializeField] float drag = 0.5f;
-        [SerializeField] float rotationSpeed = 0.1f;
+        [SerializeField] float rotationSpeed = 12f;
         [SerializeField] private float jumpForce = 7f;
         bool canJump;
         
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             rb.linearDamping = drag;
         }
 
@@ -78,8 +78,8 @@ namespace Character
 
         void ApplyRotation()
         {
-            Vector3 direction = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.y);
-            if (direction.magnitude > 0.5f)
+            Vector3 direction = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            if (direction.sqrMagnitude > 0.01f)
             {
                 // 1. Calculate the target rotation (where we WANT to look)
                 Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);

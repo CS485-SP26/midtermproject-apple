@@ -67,10 +67,10 @@ namespace Core
         private void UpdateUI()
         {
             if (fundsText != null)
-                fundsText.text = $"Funds: ${funds}";
+                fundsText.SetText("Funds: ${0}", funds);
 
             if (seedsText != null)
-                seedsText.text = $"Seeds: {seeds}";
+                seedsText.SetText("Seeds: {0}", seeds);
         }
         
         public void LoadScenebyName(string name)
