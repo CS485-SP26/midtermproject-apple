@@ -3894,6 +3894,7 @@ MonoBehaviour:
   farmTiles: []
   rewardAmount: 50
   congratulationsText: {fileID: 1908044486}
+  fundsText: {fileID: 1453413617}
   waterRefillText: {fileID: 1611336869}
 --- !u!1 &455555335
 GameObject:

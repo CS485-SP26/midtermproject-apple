@@ -130,7 +130,6 @@ namespace Farming
                     waterLevel = 1f;
                     waterLevelUI.Fill = waterLevel;
                     DisplayWaterRefilled();  
- 
                 }
             }
         }
