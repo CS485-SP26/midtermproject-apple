@@ -1,10 +1,12 @@
 using UnityEngine;
 using Character;
-
+using Core;
 public class BuyItem : MonoBehaviour
 {
     [SerializeField] private GameObject ButtonUI;
     [SerializeField] private GameObject Seed;
+
+    [SerializeField] private int seedPrice = 50;
      private bool playerInside = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,8 +37,17 @@ public class BuyItem : MonoBehaviour
     {
         if (playerInside)
         {
-            Seed.SetActive(false);
-            ButtonUI.SetActive(false);
+            if(seedPrice <= GameManager.Instance.funds) 
+            {
+                GameManager.Instance.AddFunds(0-seedPrice);
+                GameManager.Instance.AddSeeds(1);
+                Seed.SetActive(false);
+                ButtonUI.SetActive(false);
+            }
+            else
+            {
+                Debug.Log("Unable to purchase seeds, not enough funds.");
+            }
         }
     }
 }

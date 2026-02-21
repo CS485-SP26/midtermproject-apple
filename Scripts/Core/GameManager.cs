@@ -1,30 +1,81 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace Core
 {
     public class GameManager:MonoBehaviour
     {
-        static private GameManager instance = null; 
-        static public GameManager Instance
+        public static GameManager Instance { get; private set; }
+
+        public int funds = 100;
+        public int seeds = 0;
+
+        private TMP_Text fundsText;
+        private TMP_Text seedsText;
+
+        private void Awake()
         {
-            get
+            // Singleton protection
+            if (Instance != null && Instance != this)
             {
-                if(instance == null)
-                {
-                    GameObject go = new GameObject("GameManager");
-                    instance = go.AddComponent<GameManager>();
-                    DontDestroyOnLoad(go);
-                    Debug.Log("Created a new GameManager");
-                }
-                return instance;
+                Destroy(gameObject);
+                return;
             }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-       
-        int funds = 0;
-        public void Addfunds(int funds)
+
+        private void OnEnable()
         {
-            this.funds = funds;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            // Find UI in the newly loaded scene
+            fundsText = GameObject.Find("FundsText")?.GetComponent<TMP_Text>();
+            seedsText = GameObject.Find("SeedsText")?.GetComponent<TMP_Text>();
+
+            UpdateUI();
+        }
+
+        public void AddFunds(int amount)
+        {
+            funds += amount;
+            UpdateUI();
+        }
+
+        public void AddSeeds(int amount)
+        {
+            seeds += amount;
+            UpdateUI();
+        }
+
+        public void SpendFunds(int amount)
+        {
+            funds -= amount;
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            if (fundsText != null)
+                fundsText.text = $"Funds: ${funds}";
+
+            if (seedsText != null)
+                seedsText.text = $"Seeds: {seeds}";
+        }
+        
+        public void LoadScenebyName(string name)
+        {
+            SceneManager.LoadScene(name);
         }
         /*
         void Awake()
@@ -42,9 +93,5 @@ namespace Core
             }
         }
         */
-        public void LoadScenebyName(string name)
-        {
-            SceneManager.LoadScene(name);
-        }
     }
 }

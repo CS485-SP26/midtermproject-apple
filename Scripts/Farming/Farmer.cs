@@ -3,7 +3,7 @@ using Character;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
-
+using Core;
 namespace Farming
 {
     [RequireComponent(typeof(AnimatedController))]
@@ -27,12 +27,16 @@ namespace Farming
         private bool rewardGiven = false;
 
         [SerializeField] private TMP_Text congratulationsText; // TMP Text to display the congratulations message
+<<<<<<< Updated upstream
         [SerializeField] private TMP_Text fundsText; // TMP Text to display current funds
         [SerializeField] private TMP_Text waterRefillText;
 
         private float playerFunds = 100f; // Starting funds
+=======
+>>>>>>> Stashed changes
 
         private float congratulationsDuration = 3f; // Duration to show the congratulations message (in seconds)
+        [SerializeField] private TMP_Text waterRefillText;
 
         void Start()
         {
@@ -54,8 +58,6 @@ namespace Farming
 
             // Collect all tiles in the scene
             farmTiles = new List<FarmTile>(Object.FindObjectsByType<FarmTile>(FindObjectsSortMode.None));
-            UpdateFundsText(); // Update the funds display initially
-
         }
         
         public void SetTool(string tool)
@@ -135,6 +137,10 @@ namespace Farming
                     waterLevel = 1f;
                     waterLevelUI.Fill = waterLevel;
                     DisplayWaterRefilled();  
+<<<<<<< Updated upstream
+=======
+ 
+>>>>>>> Stashed changes
                 }
             }
         }
@@ -192,17 +198,9 @@ namespace Farming
             if (!rewardGiven)
             {
                 rewardGiven = true;
-                playerFunds += rewardAmount; // Add the reward to the player's funds
+                GameManager.Instance.AddFunds(50);
                 Debug.Log($"You have been awarded {rewardAmount} funds!");
-                UpdateFundsText(); // Update the funds display
             }
-        }
-
-        // Update the funds text UI element (TMP)
-        private void UpdateFundsText()
-        {
-            // Set the UI text in the following format:  "Funds: $100"
-            fundsText.text = $"Funds: ${playerFunds:F0}"; // F0 formats the number without decimal points
         }
 
         // This method will be called to reset the reward condition when all tiles are back to grass

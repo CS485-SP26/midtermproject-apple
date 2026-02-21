@@ -216,12 +216,12 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 621266012}
         m_TargetAssemblyTypeName: Core.GameManager, Assembly-CSharp
-        m_MethodName: Addfunds
+        m_MethodName: AddFunds
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 100
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -411,6 +411,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550bb88b207175a489376f2e8459d91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LoadScene
+  funds: 100
+  seeds: 0
 --- !u!1 &644770500
 GameObject:
   m_ObjectHideFlags: 0
