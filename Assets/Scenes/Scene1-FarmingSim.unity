@@ -12554,6 +12554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonTrigger
   ButtonUI: {fileID: 1006586354}
+  sceneToLoad: Scene2-Store
 --- !u!1 &1495047858
 GameObject:
   m_ObjectHideFlags: 0
