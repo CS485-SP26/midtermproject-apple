@@ -5513,6 +5513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonTrigger
   ButtonUI: {fileID: 62604431}
+  sceneToLoad: Scene1-FarmingSim
 --- !u!1 &1421290082
 GameObject:
   m_ObjectHideFlags: 0
