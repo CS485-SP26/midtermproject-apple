@@ -3,6 +3,7 @@ using Character;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using Farming;
 using Core;
 namespace Farming
 {
@@ -93,6 +94,9 @@ namespace Farming
                         DisplayWaterLow();
                     }
                     break;
+                 case FarmTile.Condition.Watered:
+                    tile.Interact(); // call PlantSeed
+                    break;
                 default: break;
             }
             // Check if all tiles are watered
@@ -140,7 +144,6 @@ namespace Farming
                 Debug.Log("Left water source.");
             }
         }
-        
         private void CheckWinCondition()
         {
             if (rewardGiven) return;
@@ -148,7 +151,7 @@ namespace Farming
             bool allWatered = true;
             foreach (var tile in farmTiles)
             {
-                if (tile.GetCondition != FarmTile.Condition.Watered)
+                if (!tile.IsEffectivelyWatered())
                 {
                     allWatered = false;
                     break;
@@ -186,6 +189,11 @@ namespace Farming
             // Award funds to the player, only once
             if (!rewardGiven)
             {
+                if (GameManager.Instance == null)
+                {
+                    Debug.LogWarning("GameManager.Instance is null! Cannot award funds yet.");
+                    return;
+                }
                 rewardGiven = true;
                 GameManager.Instance.AddFunds(50);
                 Debug.Log($"You have been awarded {rewardAmount} funds!");
