@@ -172,7 +172,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: garden
     m_StateMachine: {fileID: -1618833231868128493}
-    m_Mask: {fileID: 0}
+    m_Mask: {fileID: 31900000, guid: 621af9d41947aac4c9600a80c0f6fee9, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0
