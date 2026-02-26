@@ -17,7 +17,6 @@ public class Plant : MonoBehaviour
     void Start()
     {
         UpdateVisual();
-    
     }
 
     // Update is called once per frame
@@ -61,6 +60,14 @@ public class Plant : MonoBehaviour
             case PlantState.Growing: growingModel.SetActive(true); break;
             case PlantState.Mature: matureModel.SetActive(true); break;
             case PlantState.Whithered: whitheredModel.SetActive(true); break;
+        }
+    }
+
+    public void IsMature()
+    {
+        if (currentState == PlantState.Mature)
+        {
+            Debug.Log("The plant is mature and ready to harvest!");
         }
     }
 }
