@@ -7,7 +7,9 @@ public class BuyItem : MonoBehaviour
     [SerializeField] private GameObject Seed;
 
     [SerializeField] private int seedPrice = 50;
-     private bool playerInside = false;
+
+    
+    private bool playerInside = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -50,4 +52,11 @@ public class BuyItem : MonoBehaviour
             }
         }
     }
+
+    // public void storeBuyFruit()
+    // {
+    //     if(playerInside)
+    //     {
+    //         if(player)
+    // }
 }
