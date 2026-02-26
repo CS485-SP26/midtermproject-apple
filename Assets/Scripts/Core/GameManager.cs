@@ -25,6 +25,12 @@ namespace Core
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            // Reset tile states on game launch
+            for (int i = 0; i < 16; i++)
+            {
+                PlayerPrefs.DeleteKey("Farm Tile " + i + "_condition");
+            }
         }
 
         private void OnEnable()
