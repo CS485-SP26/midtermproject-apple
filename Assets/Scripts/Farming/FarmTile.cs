@@ -54,6 +54,20 @@ namespace Farming
                 tileCondition = (Condition)PlayerPrefs.GetInt(gameObject.name + "_condition");
                 UpdateVisual();
             }
+
+            // Load saved plant on start
+            if (PlayerPrefs.HasKey(gameObject.name + "_has_plant") && PlayerPrefs.GetInt(gameObject.name + "_has_plant") == 1)
+            {
+                Vector3 spawnPos = transform.position + new Vector3(0f, 0f, 0f);
+                GameObject plantObj = Instantiate(plantPrefab, spawnPos, Quaternion.identity);
+                plantObj.transform.parent = transform;
+                currentPlant = plantObj.GetComponent<Plant>();
+                if (currentPlant != null && PlayerPrefs.HasKey(gameObject.name + "_plant_state"))
+                {
+                    currentPlant.currentState = (Plant.PlantState)PlayerPrefs.GetInt(gameObject.name + "_plant_state");
+                    currentPlant.UpdateVisual();
+                }
+            }
         }
 
         public void Interact()
@@ -90,6 +104,8 @@ namespace Farming
             {
                 plantWateredToday = true;
                 currentPlant.OnDayPassed(true); // immediately water the plant
+                tileCondition = Condition.Watered;
+                UpdateVisual();
             }
             else
             {
@@ -116,6 +132,12 @@ namespace Farming
             currentPlant = plantObj.GetComponent<Plant>();
             if (currentPlant == null)
                 Debug.LogWarning("Plant prefab does not have Plant.cs attached!");
+            else
+            {
+                // Save plant data
+                PlayerPrefs.SetInt(gameObject.name + "_has_plant", 1);
+                PlayerPrefs.SetInt(gameObject.name + "_plant_state", (int)currentPlant.currentState);
+            }
         }
 
         private void UpdateVisual()
@@ -173,6 +195,8 @@ namespace Farming
             {
                 currentPlant.OnDayPassed(wasWatered);
                 plantWateredToday = false;
+                // Save updated plant state
+                PlayerPrefs.SetInt(gameObject.name + "_plant_state", (int)currentPlant.currentState);
             }
             farmer?.CheckTilesResetToGrass();
 

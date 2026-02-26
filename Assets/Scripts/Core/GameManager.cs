@@ -26,10 +26,12 @@ namespace Core
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            // Reset tile states on game launch
+            // Reset tile and plant states on game launch
             for (int i = 0; i < 16; i++)
             {
                 PlayerPrefs.DeleteKey("Farm Tile " + i + "_condition");
+                PlayerPrefs.DeleteKey("Farm Tile " + i + "_has_plant");
+                PlayerPrefs.DeleteKey("Farm Tile " + i + "_plant_state");
             }
         }
 
