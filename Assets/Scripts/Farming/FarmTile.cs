@@ -47,6 +47,13 @@ namespace Farming
                     materials.Add(edgeRenderer.material);
                 }
             }
+
+            // Load saved condition
+            if (PlayerPrefs.HasKey(gameObject.name + "_condition"))
+            {
+                tileCondition = (Condition)PlayerPrefs.GetInt(gameObject.name + "_condition");
+                UpdateVisual();
+            }
         }
 
         public void Interact()
@@ -70,6 +77,7 @@ namespace Farming
             UpdateVisual();
             daysSinceLastInteraction = 0;
             tillAudio?.Play();
+            PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
             
         }
 
@@ -88,6 +96,7 @@ namespace Farming
                 UpdateVisual();
             }
             waterAudio?.Play();
+            PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
         }
         private void PlantSeed()
         {
@@ -166,6 +175,7 @@ namespace Farming
             farmer?.CheckTilesResetToGrass();
 
             UpdateVisual();
+            PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
         }
         
     }
