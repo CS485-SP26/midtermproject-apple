@@ -2319,6 +2319,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 383629377}
   tillAudio: {fileID: 383629376}
   waterAudio: {fileID: 383629375}
@@ -2861,6 +2862,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 400642163}
   tillAudio: {fileID: 400642162}
   waterAudio: {fileID: 400642161}
@@ -3418,6 +3420,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 413481111}
   tillAudio: {fileID: 413481110}
   waterAudio: {fileID: 413481109}
@@ -4786,6 +4789,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 575667308}
   tillAudio: {fileID: 575667307}
   waterAudio: {fileID: 575667306}
@@ -5216,6 +5220,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 593384254}
   tillAudio: {fileID: 593384253}
   waterAudio: {fileID: 593384252}
@@ -5646,6 +5651,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 621895053}
   tillAudio: {fileID: 621895052}
   waterAudio: {fileID: 621895051}
@@ -6547,6 +6553,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 749749636}
   tillAudio: {fileID: 749749635}
   waterAudio: {fileID: 749749634}
@@ -7273,6 +7280,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 818270252}
   tillAudio: {fileID: 818270251}
   waterAudio: {fileID: 818270250}
@@ -8583,9 +8591,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1181352382}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: LoadScene
+      - m_Target: {fileID: 1181352384}
+        m_TargetAssemblyTypeName: Core.GameManager, Assembly-CSharp
+        m_MethodName: LoadScenebyName
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9072,26 +9080,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1181352383}
-  - component: {fileID: 1181352382}
+  - component: {fileID: 1181352384}
   m_Layer: 0
-  m_Name: SceneLoader
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1181352382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1181352381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b59037784bafc09489eb1ceae52aacce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
 --- !u!4 &1181352383
 Transform:
   m_ObjectHideFlags: 0
@@ -9107,6 +9103,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1181352384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181352381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 550bb88b207175a489376f2e8459d91c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.GameManager
+  funds: 100
+  seeds: 0
 --- !u!1 &1236845528
 GameObject:
   m_ObjectHideFlags: 0
@@ -9520,6 +9530,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1259173397}
   tillAudio: {fileID: 1259173396}
   waterAudio: {fileID: 1259173395}
@@ -10510,6 +10521,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1347809123}
   tillAudio: {fileID: 1347809122}
   waterAudio: {fileID: 1347809121}
@@ -11165,6 +11177,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1381054964}
   tillAudio: {fileID: 1381054963}
   waterAudio: {fileID: 1381054962}
@@ -11595,6 +11608,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1393355534}
   tillAudio: {fileID: 1393355533}
   waterAudio: {fileID: 1393355532}
@@ -12025,6 +12039,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1403734918}
   tillAudio: {fileID: 1403734917}
   waterAudio: {fileID: 1403734916}
@@ -12713,6 +12728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonTrigger
   ButtonUI: {fileID: 1006586354}
+  sceneToLoad: Scene2-Store
 --- !u!1 &1495047858
 GameObject:
   m_ObjectHideFlags: 0
@@ -12854,7 +12870,7 @@ Transform:
   m_GameObject: {fileID: 1496027513}
   serializedVersion: 2
   m_LocalRotation: {x: 0.76604444, y: -0, z: -0, w: 0.64278764}
-  m_LocalPosition: {x: 0, y: 0.2999997, z: 1}
+  m_LocalPosition: {x: 0, y: 0.284, z: 0.683}
   m_LocalScale: {x: 0.2, y: 0.10000002, z: 0.20000003}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14679,6 +14695,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1697533645}
   tillAudio: {fileID: 1697533644}
   waterAudio: {fileID: 1697533643}
@@ -16853,6 +16870,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 2056574615}
   tillAudio: {fileID: 2056574614}
   waterAudio: {fileID: 2056574613}
@@ -17395,6 +17413,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 2096229169}
   tillAudio: {fileID: 2096229168}
   waterAudio: {fileID: 2096229167}

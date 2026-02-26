@@ -763,6 +763,7 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
+  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: -4219563466296458282}
   tillAudio: {fileID: -7930267235150295811}
   waterAudio: {fileID: 9022809374785031123}

@@ -8,7 +8,7 @@ namespace Character
     //[RequireComponent(typeof(Farmer))]
     public class PlayerController : MonoBehaviour
     {
-        private TileSelector tileSelector;
+        
         //[SerializeField] private GameObject gardenHoe;
         
         //[SerializeField] private GameObject waterCan;
@@ -27,7 +27,8 @@ namespace Character
             // TODO: Consider Debug.Assert vs RequireComponent(typeof(...))
             Debug.Assert(animatedController, "PlayerController requires an animatedController");
             Debug.Assert(moveController, "PlayerController requires a MovementController");
-            Debug.Log("Farmer type: " + farmer.GetType());
+            if (farmer != null)
+                Debug.Log("Farmer type: " + farmer.GetType());
             //Debug.Assert(tileSelector, "PlayerController requires a TileSelector.");
         }
         public void OnMove(InputValue inputValue)
