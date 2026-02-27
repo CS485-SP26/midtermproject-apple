@@ -31,6 +31,7 @@ namespace Farming
 
         private float congratulationsDuration = 3f; // Duration to show the congratulations message (in seconds)
         [SerializeField] private TMP_Text waterRefillText;
+        [SerializeField] private TMP_Text needSeedText;
         private WaitForSeconds messageDelay;
 
         void Start()
@@ -97,10 +98,29 @@ namespace Farming
                  case FarmTile.Condition.Watered:
                     tile.Interact(); // call PlantSeed
                     break;
+                case FarmTile.Condition.Planted:
+                    tile.Interact();
+                    if(GameManager.Instance.seeds <= 0)
+                    {
+                        DisplayLowSeed();
+                    }
+                    break;
                 default: break;
             }
             // Check if all tiles are watered
             CheckWinCondition();
+        }
+        public void DisplayLowSeed()
+        {
+            needSeedText.text = "No seed, go to store to buy seeds";
+            needSeedText.gameObject.SetActive(true);
+            StartCoroutine(HideSeedMessage());
+        }
+
+        private IEnumerator HideSeedMessage()
+        {
+            yield return messageDelay;
+            needSeedText.gameObject.SetActive(false);
         }
 
         public void DisplayWaterLow()
@@ -148,27 +168,34 @@ namespace Farming
         {
             if (rewardGiven) return;
 
-            bool allWatered = true;
+            bool allPlanted = true;
             foreach (var tile in farmTiles)
             {
-                if (!tile.IsEffectivelyWatered())
+                if (!tile.IsEffectivelyPlanted())
                 {
-                    allWatered = false;
+                    allPlanted = false;
                     break;
                 }
             }
 
-            if (allWatered)
+            if (allPlanted)
             {
                 DisplayWinMessage();
                 AwardFunds();
+                if (GameManager.Instance.seeds > 0)
+                {
+                    GameManager.Instance.seeds--;
+                    GameManager.Instance.AddSeeds(0); // refresh UI
+                    Debug.Log("Seeds decreased after planting all tiles.");
+                }
+                
             }
         }
 
         private void DisplayWinMessage()
         {
             // Display the congratulations message in the UI (TMP)
-            congratulationsText.text = "Congratulations! All tiles are watered.";
+            congratulationsText.text = "Congratulations! All tiles are Planted.";
             congratulationsText.gameObject.SetActive(true); // Make sure the message is visible
 
             // Start the coroutine to hide the message after a few seconds

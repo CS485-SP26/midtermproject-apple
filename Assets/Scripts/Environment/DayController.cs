@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro; // Important for TextMeshPro
 using UnityEngine.Events;
 using Farming;
+using Core;
+
 
 namespace Environment 
 {
@@ -17,6 +19,7 @@ namespace Environment
         [SerializeField] private int currentDay = 1; // Good for debugging from the editor
 
         // Properties
+        
         public float DayProgressPercent => Mathf.Clamp01(dayProgressSeconds / dayLengthSeconds);
         public int CurrentDay { get { return currentDay; } } 
 
@@ -38,7 +41,8 @@ namespace Environment
                 // Do this instead
                 dayLabel.SetText("Days: {0}", currentDay);                
             }
-
+            GameManager.Instance.SetDay(currentDay);
+            
             dayPassedEvent.Invoke(); //make announcement to all listeners
         }
 

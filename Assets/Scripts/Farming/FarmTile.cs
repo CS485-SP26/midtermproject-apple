@@ -8,7 +8,7 @@ namespace Farming
 {
     public class FarmTile : MonoBehaviour
     {
-        public enum Condition { Grass, Tilled, Watered }
+        public enum Condition { Grass, Tilled, Watered, Planted}
 
         [SerializeField] private Condition tileCondition = Condition.Grass; 
 
@@ -76,19 +76,23 @@ namespace Farming
             Debug.Log("Tile: " + gameObject.name + 
           " | InstanceID: " + GetInstanceID() + 
           " | Condition: " + tileCondition);
+            
             switch(tileCondition)
             {
                 case FarmTile.Condition.Grass: Till(); break;
                 case FarmTile.Condition.Tilled: Water(); break;
-                case FarmTile.Condition.Watered: 
-                    if(currentPlant != null && currentPlant.IsMature())
-                    {
-                        Harvest();
-                    }
-                    else
-                    {
-                        PlantSeed();
-                    }
+                case FarmTile.Condition.Watered:
+                if(currentPlant != null && currentPlant.IsMature())
+                {
+                    Harvest();
+                }
+                else
+                {
+                    PlantSeed();
+                }
+                 break;
+                case FarmTile.Condition.Planted: 
+                    
                     break;
             }
             Debug.Log("Condition AFTER: " + tileCondition);
@@ -122,12 +126,22 @@ namespace Farming
                 tileCondition = Condition.Watered;
                 UpdateVisual();
             }
+            
             waterAudio?.Play();
             // Set the tile's condition in PlayerPrefs so it persists across sessions
             PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
         }
         private void PlantSeed()
         {
+            // Check if player has seeds
+            if (GameManager.Instance.seeds <= 0)
+            {
+                Debug.Log("No seeds available to plant!");
+                Farmer farmer = FindFirstObjectByType<Farmer>();
+                if(farmer != null) farmer.DisplayLowSeed();
+                return;
+                
+            }
             Debug.Log("PlantSeed called on " + gameObject.name);
             if (currentPlant != null) return;
             if (plantPrefab == null)
@@ -206,6 +220,12 @@ namespace Farming
 
             return false;
         }
+        public bool IsEffectivelyPlanted()
+        {
+            // A tile counts as planted if it’s visually planted or has a plant
+            return tileCondition == Condition.Planted || currentPlant != null;
+        }
+        
 
         public void OnDayPassed()
         {
