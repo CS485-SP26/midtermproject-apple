@@ -18,6 +18,12 @@ namespace Farming
         [SerializeField] private float waterLevel = 1f;
         [SerializeField] private float waterPerUse = 0.1f;
 
+        [SerializeField] private ProgressBar staminaLevelUI;
+        [SerializeField] private float staminaLevel = 1f;
+        [SerializeField] private float staminaPerUse = 0.1f;
+        [SerializeField] private float staminaRegenPerSecond = 0.05f;
+        [SerializeField] private TMP_Text lowStaminaText;
+
         //MovementController moveController;
         AnimatedController animatedController;
 
@@ -44,7 +50,9 @@ namespace Farming
             if (waterCan != null) waterCan.SetActive(false);
             if(animatedController == null)
                 animatedController = GetComponentInChildren<AnimatedController>();
-
+            Debug.Assert(staminaLevelUI, "Farmer requires a staminaLevelUI");
+            staminaLevelUI.setText("Stamina");
+            staminaLevelUI.Fill = staminaLevel;
             if(animatedController == null)
                 Debug.LogError("Farmer requires an AnimatedController! Animation will not play.");
             Debug.Assert(waterLevelUI, "Farmer requires an waterLevel");
@@ -75,10 +83,20 @@ namespace Farming
             switch (tile.GetCondition)
             {
                 case FarmTile.Condition.Grass:
+                    if (!TryUseStamina(staminaPerUse))
+                    {
+                        DisplayLowStamina();
+                        return;
+                    }
                     animatedController.SetTrigger("Till");
                     tile.Interact();
                     break;
                 case FarmTile.Condition.Tilled: 
+                    if (!TryUseStamina(staminaPerUse))
+                    {
+                        DisplayLowStamina();
+                        return;
+                    }
                     if(waterLevel >= 0)
                     {
                         animatedController.SetTrigger("Water");
@@ -96,9 +114,19 @@ namespace Farming
                     }
                     break;
                  case FarmTile.Condition.Watered:
+                    if (!TryUseStamina(staminaPerUse))
+                    {
+                        DisplayLowStamina();
+                        return;
+                    }
                     tile.Interact(); // call PlantSeed
                     break;
                 case FarmTile.Condition.Planted:
+                    if (!TryUseStamina(staminaPerUse))
+                    {
+                        DisplayLowStamina();
+                        return;
+                    }
                     tile.Interact();
                     if(GameManager.Instance.seeds <= 0)
                     {
@@ -121,6 +149,18 @@ namespace Farming
         {
             yield return messageDelay;
             needSeedText.gameObject.SetActive(false);
+        }
+        public void DisplayLowStamina()
+        {
+            lowStaminaText.text = "Too tired to perform this action!";
+            lowStaminaText.gameObject.SetActive(true);
+            StartCoroutine(HideStaminaMessage());
+        }
+
+        private IEnumerator HideStaminaMessage()
+        {
+            yield return messageDelay;
+            lowStaminaText.gameObject.SetActive(false);
         }
 
         public void DisplayWaterLow()
@@ -210,7 +250,7 @@ namespace Farming
             // Hide the message after the wait
             congratulationsText.gameObject.SetActive(false);
         }
-
+        
         private void AwardFunds()
         {
             // Award funds to the player, only once
@@ -244,6 +284,23 @@ namespace Farming
             {
                 rewardGiven = false; // Reset the reward condition once all tiles are grass again
             }
+        }
+        private bool TryUseStamina(float amount)
+        {
+            if (staminaLevel < amount) return false;
+            staminaLevel -= amount;
+            staminaLevelUI.Fill = staminaLevel;
+            return true;
+        }
+
+        private void RegenerateStamina()
+        {
+            staminaLevel = Mathf.Clamp01(staminaLevel + staminaRegenPerSecond * Time.deltaTime);
+            staminaLevelUI.Fill = staminaLevel;
+        }
+        private void Update()
+        {
+            RegenerateStamina();
         }
     }
 }
