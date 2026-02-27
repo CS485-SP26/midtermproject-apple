@@ -10,9 +10,11 @@ namespace Core
 
         public int funds = 100;
         public int seeds = 0;
+        public int harvest = 0;
 
         private TMP_Text fundsText;
         private TMP_Text seedsText;
+        private TMP_Text harvestText;
 
         private void Awake()
         {
@@ -50,6 +52,7 @@ namespace Core
             // Find UI in the newly loaded scene
             fundsText = GameObject.Find("FundsText")?.GetComponent<TMP_Text>();
             seedsText = GameObject.Find("SeedsText")?.GetComponent<TMP_Text>();
+            harvestText = GameObject.Find("HarvestText")?.GetComponent<TMP_Text>();
 
             UpdateUI();
         }
@@ -66,6 +69,16 @@ namespace Core
             UpdateUI();
         }
 
+        public void AddHarvest(int amount)
+        {
+            harvest += amount;
+            UpdateUI();
+        }
+        public void SellHarvest(int amount)
+        {
+            
+        }
+
         public void SpendFunds(int amount)
         {
             funds -= amount;
@@ -79,6 +92,8 @@ namespace Core
 
             if (seedsText != null)
                 seedsText.SetText("Seeds: {0}", seeds);
+            if (harvestText != null)
+                harvestText.SetText("Harvest: {0}", harvest);
         }
         
         public void LoadScenebyName(string name)

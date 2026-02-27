@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Environment;
 using Farming;
+using Core;
 
 namespace Farming 
 {
@@ -79,7 +80,16 @@ namespace Farming
             {
                 case FarmTile.Condition.Grass: Till(); break;
                 case FarmTile.Condition.Tilled: Water(); break;
-                case FarmTile.Condition.Watered: PlantSeed(); break;
+                case FarmTile.Condition.Watered: 
+                    if(currentPlant != null && currentPlant.IsMature())
+                    {
+                        Harvest();
+                    }
+                    else
+                    {
+                        PlantSeed();
+                    }
+                    break;
             }
             Debug.Log("Condition AFTER: " + tileCondition);
             
@@ -138,6 +148,22 @@ namespace Farming
                 PlayerPrefs.SetInt(gameObject.name + "_has_plant", 1);
                 PlayerPrefs.SetInt(gameObject.name + "_plant_state", (int)currentPlant.currentState);
             }
+        }
+        private void Harvest()
+        {
+            if (currentPlant == null) return;
+
+            Debug.Log("Harvesting plant on " + gameObject.name);
+
+            Destroy(currentPlant.gameObject);
+            currentPlant = null;
+
+            // Remove saved plant data
+            PlayerPrefs.DeleteKey(gameObject.name + "_has_plant");
+            PlayerPrefs.DeleteKey(gameObject.name + "_plant_state");
+
+            GameManager.Instance.AddHarvest(1);
+
         }
 
         private void UpdateVisual()

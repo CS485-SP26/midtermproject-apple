@@ -18,13 +18,6 @@ public class Plant : MonoBehaviour
     {
         UpdateVisual();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnDayPassed(bool wasWatered)
     {
         if(currentState == PlantState.Mature || currentState == PlantState.Whithered)
@@ -63,11 +56,9 @@ public class Plant : MonoBehaviour
         }
     }
 
-    public void IsMature()
+    public bool IsMature()
     {
-        if (currentState == PlantState.Mature)
-        {
-            Debug.Log("The plant is mature and ready to harvest!");
-        }
+        return currentState == PlantState.Mature;
+        //Debug.Log("The plant is mature and ready to harvest!");
     }
 }

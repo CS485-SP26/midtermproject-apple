@@ -4,6 +4,7 @@ using Core;
 public class BuyItem : MonoBehaviour
 {
     [SerializeField] private GameObject ButtonUI;
+
     [SerializeField] private GameObject Seed;
 
     [SerializeField] private int seedPrice = 50;
