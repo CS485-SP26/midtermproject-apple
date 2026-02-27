@@ -79,10 +79,32 @@ namespace Core
             harvest += amount;
             UpdateUI();
         }
+
+        // Reset the stored harvest to zero and refresh UI
         public void ResetHarvest()
         {
             harvest = 0;
             UpdateUI();
+        }
+        
+        // variable amount to sell
+        public void SellHarvest(int amount)
+        {
+            // Ensure we don't sell more than we have
+            int amountToSell = Mathf.Min(amount, harvest);
+
+            // if we have something to sell, reduce harvest and add funds
+            if (amountToSell > 0)
+            {
+                harvest -= amountToSell;
+                AddFunds(amountToSell * 10);
+            }
+        }
+
+        // You can call this from a "Sell All" button in Unity
+        public void SellAll() 
+        {
+            SellHarvest(harvest);
         }
         public void SpendFunds(int amount)
         {

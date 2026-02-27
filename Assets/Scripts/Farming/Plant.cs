@@ -59,6 +59,5 @@ public class Plant : MonoBehaviour
     public bool IsMature()
     {
         return currentState == PlantState.Mature;
-        //Debug.Log("The plant is mature and ready to harvest!");
     }
 }
