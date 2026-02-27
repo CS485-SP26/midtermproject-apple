@@ -76,24 +76,17 @@ namespace Farming
             Debug.Log("Tile: " + gameObject.name + 
           " | InstanceID: " + GetInstanceID() + 
           " | Condition: " + tileCondition);
-            
+          if(currentPlant != null && currentPlant.IsMature())
+            {
+                Harvest();
+                return;
+            }
             switch(tileCondition)
             {
                 case FarmTile.Condition.Grass: Till(); break;
-                case FarmTile.Condition.Tilled: Water(); break;
-                case FarmTile.Condition.Watered:
-                if(currentPlant != null && currentPlant.IsMature())
-                {
-                    Harvest();
-                }
-                else
-                {
-                    PlantSeed();
-                }
-                 break;
-                case FarmTile.Condition.Planted: 
-                    
-                    break;
+                case FarmTile.Condition.Tilled: Water();break;
+                case FarmTile.Condition.Watered:PlantSeed();break;
+                case FarmTile.Condition.Planted: Water();break;
             }
             Debug.Log("Condition AFTER: " + tileCondition);
             
@@ -117,7 +110,6 @@ namespace Farming
             if (currentPlant != null)
             {
                 plantWateredToday = true;
-                currentPlant.OnDayPassed(true); // immediately water the plant
                 tileCondition = Condition.Watered;
                 UpdateVisual();
             }
@@ -162,6 +154,10 @@ namespace Farming
                 PlayerPrefs.SetInt(gameObject.name + "_has_plant", 1);
                 PlayerPrefs.SetInt(gameObject.name + "_plant_state", (int)currentPlant.currentState);
             }
+        }
+        public bool HasMaturePlant()
+        {
+            return currentPlant != null && currentPlant.IsMature();
         }
         private void Harvest()
         {

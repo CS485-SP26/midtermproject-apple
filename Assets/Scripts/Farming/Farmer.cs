@@ -80,6 +80,11 @@ namespace Farming
             FarmTile tile = tileSelector.GetSelectedTile();
             if(tile == null) return;
             // updates the condition, play the anim after
+            if (tile.HasMaturePlant())
+            {
+                tile.Interact(); // Harvest happens inside
+                return;          // STOP so water is not reduced
+            }
             switch (tile.GetCondition)
             {
                 case FarmTile.Condition.Grass:
@@ -127,7 +132,17 @@ namespace Farming
                         DisplayLowStamina();
                         return;
                     }
-                    tile.Interact();
+                    if(waterLevel >= 0)
+                    {
+                        animatedController.SetTrigger("Water");
+                        tile.Interact();
+                        waterLevel -= waterPerUse;
+                        waterLevelUI.Fill = waterLevel;
+                        if(waterLevel == 0)
+                        {
+                            DisplayWaterLow();
+                        }
+                    }
                     if(GameManager.Instance.seeds <= 0)
                     {
                         DisplayLowSeed();
