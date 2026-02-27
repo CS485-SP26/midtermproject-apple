@@ -78,13 +78,13 @@ namespace Farming
                     tile.Interact();
                     break;
                 case FarmTile.Condition.Tilled: 
-                    if(waterLevel > waterPerUse)
+                    if(waterLevel >= 0)
                     {
                         animatedController.SetTrigger("Water");
                         tile.Interact();
                         waterLevel -= waterPerUse;
                         waterLevelUI.Fill = waterLevel;
-                        if(waterLevel <= 0.1)
+                        if(waterLevel == 0)
                         {
                             DisplayWaterLow();
                         }

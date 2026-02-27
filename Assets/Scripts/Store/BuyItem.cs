@@ -4,11 +4,11 @@ using Core;
 public class BuyItem : MonoBehaviour
 {
     [SerializeField] private GameObject ButtonUI;
-
+    
     [SerializeField] private GameObject Seed;
 
     [SerializeField] private int seedPrice = 50;
-
+   
     
     private bool playerInside = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -53,6 +53,7 @@ public class BuyItem : MonoBehaviour
             }
         }
     }
+    
 
     // public void storeBuyFruit()
     // {

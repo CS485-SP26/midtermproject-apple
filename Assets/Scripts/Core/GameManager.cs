@@ -74,11 +74,11 @@ namespace Core
             harvest += amount;
             UpdateUI();
         }
-        public void SellHarvest(int amount)
+        public void ResetHarvest()
         {
-            
+            harvest = 0;
+            UpdateUI();
         }
-
         public void SpendFunds(int amount)
         {
             funds -= amount;
