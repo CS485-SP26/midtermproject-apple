@@ -94,7 +94,6 @@ namespace Core
         {
             SellHarvest(harvest);
         }
-
         public void SpendFunds(int amount)
         {
             funds -= amount;
