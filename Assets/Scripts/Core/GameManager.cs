@@ -39,6 +39,9 @@ namespace Core
                 PlayerPrefs.DeleteKey("Farm Tile " + i + "_has_plant");
                 PlayerPrefs.DeleteKey("Farm Tile " + i + "_plant_state");
             }
+            // Ensure currentDay matches GameManager
+            currentDay = GameManager.Instance.currentDay;
+            
         }
 
         private void OnEnable()

@@ -17,9 +17,18 @@ namespace Environment
         [SerializeField] private float dayLengthSeconds = 60f;
         [SerializeField] private float dayProgressSeconds = 0f; // good for debugging from the editor
         [SerializeField] private int currentDay = 1; // Good for debugging from the editor
+        private bool dayAlreadyAdvancedThisCycle = false;
 
         // Properties
-        
+        void Awake()
+        {
+            dayProgressSeconds = 0f;
+            if (GameManager.Instance != null)
+            {
+                // Always display the correct day
+                dayLabel?.SetText("Days: {0}", GameManager.Instance.currentDay);
+            }
+        }
         public float DayProgressPercent => Mathf.Clamp01(dayProgressSeconds / dayLengthSeconds);
         public int CurrentDay { get { return currentDay; } } 
 
@@ -31,7 +40,20 @@ namespace Environment
             if (dayLabel == null) Debug.Log("DayController does not have a label to update");
 
             dayProgressSeconds = 0f; // Reset to start a new day
-            currentDay++;
+            //currentDay++;
+            // Increment the authoritative day in GameManager
+            GameManager.Instance.currentDay++;
+            GameManager.Instance.SetDay(GameManager.Instance.currentDay);
+
+            // Update UI
+            dayLabel?.SetText("Days: {0}", GameManager.Instance.currentDay);
+
+            // Notify all tiles that a day has passed
+            foreach (var tile in FindObjectsOfType<FarmTile>())
+            {
+                tile.OnDayPassed();
+            }
+            /*
             
             if (dayLabel)
             {
@@ -42,8 +64,10 @@ namespace Environment
                 dayLabel.SetText("Days: {0}", currentDay);                
             }
             GameManager.Instance.SetDay(currentDay);
+            */
             
             dayPassedEvent.Invoke(); //make announcement to all listeners
+            
         }
 
         public void UpdateVisuals()
@@ -65,9 +89,14 @@ namespace Environment
         {
             dayProgressSeconds += Time.deltaTime;
 
-            if (dayProgressSeconds >= dayLengthSeconds)
+            if (dayProgressSeconds >= dayLengthSeconds && !dayAlreadyAdvancedThisCycle)
             {
                 AdvanceDay();
+                dayAlreadyAdvancedThisCycle = true;
+            }
+            if(dayProgressSeconds < dayLengthSeconds)
+            {
+                dayAlreadyAdvancedThisCycle = false; // reset for next day
             }
 
             UpdateVisuals();
