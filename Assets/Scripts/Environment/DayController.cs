@@ -53,6 +53,7 @@ namespace Environment
             {
                 tile.OnDayPassed();
             }
+            /*
             
             if (dayLabel)
             {
@@ -62,6 +63,8 @@ namespace Environment
                 // Do this instead
                 dayLabel.SetText("Days: {0}", currentDay);                
             }
+            GameManager.Instance.SetDay(currentDay);
+            */
             
             dayPassedEvent.Invoke(); //make announcement to all listeners
             
