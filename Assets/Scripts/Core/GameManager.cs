@@ -74,6 +74,13 @@ namespace Core
             harvest += amount;
             UpdateUI();
         }
+
+        // Reset the stored harvest to zero and refresh UI
+        public void ResetHarvest()
+        {
+            harvest = 0;
+            UpdateUI();
+        }
         
         // variable amount to sell
         public void SellHarvest(int amount)
