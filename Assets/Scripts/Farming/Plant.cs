@@ -46,7 +46,7 @@ public class Plant : MonoBehaviour
         growingModel.SetActive(false);
         matureModel.SetActive(false);
         whitheredModel.SetActive(false);
-
+        //Show the model based on the current state
         switch (currentState)
         {
             case PlantState.Planted: plantedModel.SetActive(true);break;

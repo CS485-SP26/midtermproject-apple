@@ -9,12 +9,16 @@ namespace Core
         public static GameManager Instance { get; private set; }
 
         public int funds = 100;
-        public int seeds = 0;
+        public int seeds = 1;
         public int harvest = 0;
+
+        public int currentDay = 1;
 
         private TMP_Text fundsText;
         private TMP_Text seedsText;
         private TMP_Text harvestText;
+        private TMP_Text dayText;
+
 
         private void Awake()
         {
@@ -35,6 +39,9 @@ namespace Core
                 PlayerPrefs.DeleteKey("Farm Tile " + i + "_has_plant");
                 PlayerPrefs.DeleteKey("Farm Tile " + i + "_plant_state");
             }
+            // Ensure currentDay matches GameManager
+            currentDay = GameManager.Instance.currentDay;
+            
         }
 
         private void OnEnable()
@@ -53,6 +60,7 @@ namespace Core
             fundsText = GameObject.Find("FundsText")?.GetComponent<TMP_Text>();
             seedsText = GameObject.Find("SeedsText")?.GetComponent<TMP_Text>();
             harvestText = GameObject.Find("HarvestText")?.GetComponent<TMP_Text>();
+            dayText = GameObject.Find("DayLabel")?.GetComponent<TMP_Text>();
 
             UpdateUI();
         }
@@ -72,6 +80,13 @@ namespace Core
         public void AddHarvest(int amount)
         {
             harvest += amount;
+            UpdateUI();
+        }
+
+        // Reset the stored harvest to zero and refresh UI
+        public void ResetHarvest()
+        {
+            harvest = 0;
             UpdateUI();
         }
         
@@ -100,6 +115,20 @@ namespace Core
             funds -= amount;
             UpdateUI();
         }
+        public void SetDay(int day)
+        {
+            currentDay = day;
+            PlayerPrefs.SetInt("CurrentDay", day); // save immediately
+            PlayerPrefs.Save();
+        }
+
+        public void LoadDay()
+        {
+            if (PlayerPrefs.HasKey("CurrentDay"))
+                currentDay = PlayerPrefs.GetInt("CurrentDay");
+            else
+                currentDay = 1;
+        }
 
         private void UpdateUI()
         {
@@ -110,6 +139,8 @@ namespace Core
                 seedsText.SetText("Seeds: {0}", seeds);
             if (harvestText != null)
                 harvestText.SetText("Harvest: {0}", harvest);
+            if(dayText != null)
+                dayText.SetText("Days: {0}", currentDay);
         }
         
         public void LoadScenebyName(string name)

@@ -18,6 +18,12 @@ namespace Farming
         [SerializeField] private float waterLevel = 1f;
         [SerializeField] private float waterPerUse = 0.1f;
 
+        [SerializeField] private ProgressBar staminaLevelUI;
+        [SerializeField] private float staminaLevel = 1f;
+        [SerializeField] private float staminaPerUse = 0.1f;
+        [SerializeField] private float staminaRegenPerSecond = 0.05f;
+        [SerializeField] private TMP_Text lowStaminaText;
+
         //MovementController moveController;
         AnimatedController animatedController;
 
@@ -31,6 +37,7 @@ namespace Farming
 
         private float congratulationsDuration = 3f; // Duration to show the congratulations message (in seconds)
         [SerializeField] private TMP_Text waterRefillText;
+        [SerializeField] private TMP_Text needSeedText;
         private WaitForSeconds messageDelay;
 
         void Start()
@@ -43,7 +50,9 @@ namespace Farming
             if (waterCan != null) waterCan.SetActive(false);
             if(animatedController == null)
                 animatedController = GetComponentInChildren<AnimatedController>();
-
+            Debug.Assert(staminaLevelUI, "Farmer requires a staminaLevelUI");
+            staminaLevelUI.setText("Stamina");
+            staminaLevelUI.Fill = staminaLevel;
             if(animatedController == null)
                 Debug.LogError("Farmer requires an AnimatedController! Animation will not play.");
             Debug.Assert(waterLevelUI, "Farmer requires an waterLevel");
@@ -71,13 +80,28 @@ namespace Farming
             FarmTile tile = tileSelector.GetSelectedTile();
             if(tile == null) return;
             // updates the condition, play the anim after
+            if (tile.HasMaturePlant())
+            {
+                tile.Interact(); // Harvest happens inside
+                return;          // STOP so water is not reduced
+            }
             switch (tile.GetCondition)
             {
                 case FarmTile.Condition.Grass:
+                    if (!TryUseStamina(staminaPerUse))
+                    {
+                        DisplayLowStamina();
+                        return;
+                    }
                     animatedController.SetTrigger("Till");
                     tile.Interact();
                     break;
                 case FarmTile.Condition.Tilled: 
+                    if (!TryUseStamina(staminaPerUse))
+                    {
+                        DisplayLowStamina();
+                        return;
+                    }
                     if(waterLevel >= 0)
                     {
                         animatedController.SetTrigger("Water");
@@ -95,12 +119,63 @@ namespace Farming
                     }
                     break;
                  case FarmTile.Condition.Watered:
+                    if (!TryUseStamina(staminaPerUse))
+                    {
+                        DisplayLowStamina();
+                        return;
+                    }
                     tile.Interact(); // call PlantSeed
+                    break;
+                case FarmTile.Condition.Planted:
+                    if (!TryUseStamina(staminaPerUse))
+                    {
+                        DisplayLowStamina();
+                        return;
+                    }
+                    if(waterLevel >= 0)
+                    {
+                        animatedController.SetTrigger("Water");
+                        tile.Interact();
+                        waterLevel -= waterPerUse;
+                        waterLevelUI.Fill = waterLevel;
+                        if(waterLevel == 0)
+                        {
+                            DisplayWaterLow();
+                        }
+                    }
+                    if(GameManager.Instance.seeds <= 0)
+                    {
+                        DisplayLowSeed();
+                    }
                     break;
                 default: break;
             }
             // Check if all tiles are watered
             CheckWinCondition();
+        }
+        public void DisplayLowSeed()
+        {
+            needSeedText.text = "No seed, go to store to buy seeds";
+            needSeedText.gameObject.SetActive(true);
+            StartCoroutine(HideSeedMessage());
+        }
+
+        private IEnumerator HideSeedMessage()
+        {
+            yield return messageDelay;
+            needSeedText.gameObject.SetActive(false);
+        }
+        public void DisplayLowStamina()
+        {
+            lowStaminaText.text = "Too tired to perform this action!";
+            lowStaminaText.gameObject.SetActive(true);
+            StartCoroutine(HideStaminaMessage());
+        }
+
+        private IEnumerator HideStaminaMessage()
+        {
+            yield return messageDelay;
+            lowStaminaText.gameObject.SetActive(false);
         }
 
         public void DisplayWaterLow()
@@ -152,27 +227,34 @@ namespace Farming
         {
             if (rewardGiven) return;
 
-            bool allWatered = true;
+            bool allPlanted = true;
             foreach (var tile in farmTiles)
             {
-                if (!tile.IsEffectivelyWatered())
+                if (!tile.IsEffectivelyPlanted())
                 {
-                    allWatered = false;
+                    allPlanted = false;
                     break;
                 }
             }
 
-            if (allWatered)
+            if (allPlanted)
             {
                 DisplayWinMessage();
                 AwardFunds();
+                if (GameManager.Instance.seeds > 0)
+                {
+                    GameManager.Instance.seeds--;
+                    GameManager.Instance.AddSeeds(0); // refresh UI
+                    Debug.Log("Seeds decreased after planting all tiles.");
+                }
+                
             }
         }
 
         private void DisplayWinMessage()
         {
             // Display the congratulations message in the UI (TMP)
-            congratulationsText.text = "Congratulations! All tiles are watered.";
+            congratulationsText.text = "Congratulations! All tiles are Planted.";
             congratulationsText.gameObject.SetActive(true); // Make sure the message is visible
 
             // Start the coroutine to hide the message after a few seconds
@@ -187,7 +269,7 @@ namespace Farming
             // Hide the message after the wait
             congratulationsText.gameObject.SetActive(false);
         }
-
+        
         private void AwardFunds()
         {
             // Award funds to the player, only once
@@ -221,6 +303,23 @@ namespace Farming
             {
                 rewardGiven = false; // Reset the reward condition once all tiles are grass again
             }
+        }
+        private bool TryUseStamina(float amount)
+        {
+            if (staminaLevel < amount) return false;
+            staminaLevel -= amount;
+            staminaLevelUI.Fill = staminaLevel;
+            return true;
+        }
+
+        private void RegenerateStamina()
+        {
+            staminaLevel = Mathf.Clamp01(staminaLevel + staminaRegenPerSecond * Time.deltaTime);
+            staminaLevelUI.Fill = staminaLevel;
+        }
+        private void Update()
+        {
+            RegenerateStamina();
         }
     }
 }
