@@ -114,6 +114,7 @@ namespace Core
         {
             SellHarvest(harvest);
         }
+        
         public void SpendFunds(int amount)
         {
             funds -= amount;
@@ -159,11 +160,6 @@ namespace Core
             return seeds > 0;
         }
 
-        public void UseSeed(SeedData seed)
-        {
-            seeds = Mathf.Max(0, seeds - 1);
-            UpdateUI();
-        }
-        
     }
+    
 }
