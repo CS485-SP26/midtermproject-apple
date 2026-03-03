@@ -159,6 +159,19 @@ namespace Core
             // Simple check: if player has seeds > 0
             return seeds > 0;
         }
+        public void UseSeed(SeedData seed)
+        {
+            seeds = Mathf.Max(0, seeds - 1);
+            UpdateUI();
+        }
+        
+
+        public void ResetHarvest(Farming.FarmTile tile)
+        {
+            tile.ResetToTilled();
+        }
+
+
 
     }
     
