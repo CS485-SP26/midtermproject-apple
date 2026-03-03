@@ -231,5 +231,12 @@ namespace Farming
             PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
         }
         
+        public void ResetToTilled()
+        {
+            tileCondition = Condition.Tilled;
+            UpdateVisual();
+            // Set the tile's condition in PlayerPrefs so it persists across sessions
+            PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
+        }
     }
 }

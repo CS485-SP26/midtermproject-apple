@@ -109,12 +109,14 @@ namespace Farming
             waterRefillText.gameObject.SetActive(true);
             StartCoroutine(HideWaterMessage());
         }
+        
         public void DisplayWaterRefilled()
         {
             waterRefillText.text = "Water Refilled";
             waterRefillText.gameObject.SetActive(true);
             StartCoroutine(HideWaterMessage());
         }
+
         private IEnumerator HideWaterMessage()
         {
             // Wait for the specified duration
@@ -137,6 +139,7 @@ namespace Farming
                 }
             }
         }
+
         public void OnTriggerExit(Collider other)
         {
             if ((other.gameObject == waterSourceObject))
@@ -144,6 +147,7 @@ namespace Farming
                 Debug.Log("Left water source.");
             }
         }
+
         private void CheckWinCondition()
         {
             if (rewardGiven) return;

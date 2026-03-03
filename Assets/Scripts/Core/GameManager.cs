@@ -94,6 +94,7 @@ namespace Core
         {
             SellHarvest(harvest);
         }
+        
         public void SpendFunds(int amount)
         {
             funds -= amount;
@@ -131,5 +132,10 @@ namespace Core
             }
         }
         */
+        public void ResetHarvest(Farming.FarmTile tile)
+        {
+            tile.ResetToTilled();
+        }
     }
+    
 }
