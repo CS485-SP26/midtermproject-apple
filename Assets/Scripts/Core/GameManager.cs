@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Farming;
 
 namespace Core
 {
@@ -13,6 +14,10 @@ namespace Core
         public int harvest = 0;
 
         public int currentDay = 1;
+
+        //Seed Data
+        public SeedData selectedSeed;
+        public SeedData[] avaiableSeeds;
 
         private TMP_Text fundsText;
         private TMP_Text seedsText;
@@ -146,21 +151,19 @@ namespace Core
         {
             SceneManager.LoadScene(name);
         }
-        /*
-        void Awake()
+        // ---------------- Seed Inventory Helpers ----------------
+
+        public bool HasSeed(SeedData seed)
         {
-            if(GameManager.instance == null)
-            {
-                instance = this;
-                DontDestroyOnLoad(this);
-                Debug.Log("GameManager set through Awake");
-            }
-            else
-            {
-                Debug.Log("Duplicate GameManager attempted. Deleting new attempt");
-                Destroy(this);
-            }
+            // Simple check: if player has seeds > 0
+            return seeds > 0;
         }
-        */
+
+        public void UseSeed(SeedData seed)
+        {
+            seeds = Mathf.Max(0, seeds - 1);
+            UpdateUI();
+        }
+        
     }
 }
