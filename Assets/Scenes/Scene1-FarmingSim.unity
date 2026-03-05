@@ -9435,6 +9435,7 @@ MonoBehaviour:
   avaiableSeeds:
   - {fileID: 11400000, guid: ac08918399b3192478946f28c94f4ca5, type: 2}
   - {fileID: 11400000, guid: f74953fe2fa136448b5d6e631ece2a64, type: 2}
+  - {fileID: 11400000, guid: f94f0ac26a24f4245a7bbafc8529be9c, type: 2}
 --- !u!1 &1191068388
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444f48d3891d29645a441dca23bc65f4, type: 3}
+  m_Name: BellPepper
+  m_EditorClassIdentifier: Assembly-CSharp::SeedData
+  seedName: Bell Pepper
+  daysToMature: 3
+  plantPrefab: {fileID: 3411990813869819012, guid: ec61cc23a13525b419ae8473372e77b6, type: 3}
+  plantedModel: {fileID: 3206099878675547955, guid: 4bd1116f05e819f458c0d4d0351c853b, type: 3}
+  growingModel: {fileID: 5645458369364237100, guid: 0148f025a96397745bf62ee19faea6d9, type: 3}
+  matureModel: {fileID: 8542847430044585012, guid: 15b343f723db6aa47838949c60bffdf0, type: 3}
+  whitheredModel: {fileID: 5762350402342696382, guid: a08f0a2c3a883214699fb972486407cd, type: 3}
