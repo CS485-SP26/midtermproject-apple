@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444f48d3891d29645a441dca23bc65f4, type: 3}
+  m_Name: onion
+  m_EditorClassIdentifier: Assembly-CSharp::SeedData
+  seedName: Onion
+  daysToMature: 3
+  plantPrefab: {fileID: 4018955300274438398, guid: fe29280cac5f5974ab3a7880c2b3d363, type: 3}
+  plantedModel: {fileID: 2741333842062456709, guid: d2458c3d81424ca47a6d76ffdd066ced, type: 3}
+  growingModel: {fileID: 4119954819596347417, guid: 1be795a007ac08349a1f5c68963f6fb9, type: 3}
+  matureModel: {fileID: 1682224496930306333, guid: 1cf5ea60e7f1f8848a8ea9aeebc0caa3, type: 3}
+  whitheredModel: {fileID: 6838678892559669608, guid: 9f6a3bd6fa0fe51449c7c590a1bea14f, type: 3}

@@ -143,7 +143,7 @@ namespace Farming
                             DisplayWaterLow();
                         }
                     }
-                    if(GameManager.Instance.seeds <= 0)
+                    if(GameManager.Instance.seedBags <= 0)
                     {
                         DisplayLowSeed();
                     }
@@ -241,12 +241,14 @@ namespace Farming
             {
                 DisplayWinMessage();
                 AwardFunds();
+                /*
                 if (GameManager.Instance.seeds > 0)
                 {
                     GameManager.Instance.seeds--;
                     GameManager.Instance.AddSeeds(0); // refresh UI
                     Debug.Log("Seeds decreased after planting all tiles.");
                 }
+                */
                 
             }
         }

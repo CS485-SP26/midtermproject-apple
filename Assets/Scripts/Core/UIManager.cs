@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject seedPopupPanel;
     [SerializeField] private Transform buttonContainer; // parent for buttons
     [SerializeField] private GameObject seedButtonPrefab;
+    [SerializeField] private GameObject seedAmountPrefab;
 
     private FarmTile selectedTile;
 
@@ -21,13 +22,12 @@ public class UIManager : MonoBehaviour
 
     public void OpenSeedPopUp(FarmTile tile)
     {
-        /*
-        Debug.Log("UIManager.OpenSeedPopUp called for tile: " + tile.name);
-        Debug.Log("Available seeds count: " + GameManager.Instance.avaiableSeeds.Length);
-        Debug.Log("UIManager.Instance is " + (Instance != null ? "OK" : "NULL"));
-        Debug.Log("seedPopupPanel is " + (seedPopupPanel != null ? "assigned" : "NULL"));
-        Debug.Log("buttonContainer is " + (buttonContainer != null ? "assigned" : "NULL"));
-        */
+        // Check if player has any seeds
+        if (GameManager.Instance.GetTotalSeeds() <= 0)
+        {
+            Debug.Log("No seeds available, cannot open popup.");
+            return;
+        }
         selectedTile = tile;
         seedPopupPanel.SetActive(true);
         Time.timeScale = 0f;
@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
             
         foreach (SeedData seed in GameManager.Instance.avaiableSeeds)
         {
+            //Create Button
             GameObject btnObj = Instantiate(seedButtonPrefab, buttonContainer);
             btnObj.GetComponentInChildren<TMP_Text>().text = seed.seedName;
             Debug.Log("Created button for: " + seed.seedName);
@@ -56,6 +57,9 @@ public class UIManager : MonoBehaviour
             {
                 Debug.LogError("Seed Button prefab does not have a Button component!");
             }
+            GameObject amountObj = Instantiate(seedAmountPrefab, buttonContainer);
+            TMP_Text amountText = amountObj.GetComponent<TMP_Text>();
+            amountText.text = "Amount: "+ GameManager.Instance.GetSeedCount(seed);
 
             // Disable button if no seeds in inventory
             if (!GameManager.Instance.HasSeed(seed))
@@ -65,6 +69,13 @@ public class UIManager : MonoBehaviour
     }
     public void SelectSeed(SeedData seed)
     {
+        if (!GameManager.Instance.HasSeed(seed))
+            return;
+        if(selectedTile != null)
+        {
+            selectedTile.PlanetSelectedSeed(seed);
+        }
+        GameManager.Instance.UseSeed(seed);
         Debug.Log("SelectSeed was called: " + seed.seedName);
         Debug.Log("SELECT SEED CLICKED");
         

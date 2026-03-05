@@ -5703,6 +5703,7 @@ MonoBehaviour:
   seedPopupPanel: {fileID: 307221343}
   buttonContainer: {fileID: 1045380482}
   seedButtonPrefab: {fileID: 6607018476794401656, guid: 6498b3fcff7f4234f9e37cf6f874c4de, type: 3}
+  seedAmountPrefab: {fileID: 2159808192791299205, guid: 9a787060726161f4d927c47da9136045, type: 3}
 --- !u!4 &605741091
 Transform:
   m_ObjectHideFlags: 0
@@ -9425,13 +9426,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550bb88b207175a489376f2e8459d91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.GameManager
+  startingSeed: {fileID: 11400000, guid: ac08918399b3192478946f28c94f4ca5, type: 2}
   funds: 100
-  seeds: 1
+  seedBags: 1
   harvest: 0
   currentDay: 1
   selectedSeed: {fileID: 0}
   avaiableSeeds:
   - {fileID: 11400000, guid: ac08918399b3192478946f28c94f4ca5, type: 2}
+  - {fileID: 11400000, guid: f74953fe2fa136448b5d6e631ece2a64, type: 2}
 --- !u!1 &1191068388
 GameObject:
   m_ObjectHideFlags: 0

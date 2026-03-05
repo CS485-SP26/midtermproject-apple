@@ -144,7 +144,7 @@ namespace Farming
         private void PlantSeed()
         {
             // Check if player has seeds
-            if (GameManager.Instance.seeds <= 0)
+            if (GameManager.Instance.seedBags <= 0)
             {
                 Debug.Log("No seeds available to plant!");
                 Farmer farmer = FindFirstObjectByType<Farmer>();
@@ -177,12 +177,6 @@ namespace Farming
                 return;
             }
             
-            //plantWateredToday = true;
-            //tileCondition = Condition.Planted;
-            
-            //UpdateVisual();
-
-            
             PlayerPrefs.SetInt(gameObject.name + "_has_plant", 1);
             PlayerPrefs.SetInt(gameObject.name + "_plant_state", (int)currentPlant.currentState);
             PlayerPrefs.SetString(gameObject.name + "_selected_seed", seed.seedName);
@@ -197,13 +191,35 @@ namespace Farming
             if (currentPlant == null) return;
 
             Debug.Log("Harvesting plant on " + gameObject.name);
+            Debug.Log($"Harvesting plant on {gameObject.name}, current state: {currentPlant.currentState}");
 
-            Destroy(currentPlant.gameObject);
-            currentPlant = null;
+            // Destroy currentPlant if exists
+            if (currentPlant != null)
+            {
+                Destroy(currentPlant.gameObject);
+                currentPlant = null;
+            }
+            // Destroy any leftover child plant objects (to remove planted stage model)
+            foreach (Transform child in transform)
+            {
+                if (child.CompareTag("Plant"))  // Make sure your plant prefab has Tag="Plant"
+                {
+                    Destroy(child.gameObject);
+                }
+            }
 
             // Remove saved plant data
             PlayerPrefs.DeleteKey(gameObject.name + "_has_plant");
             PlayerPrefs.DeleteKey(gameObject.name + "_plant_state");
+            PlayerPrefs.DeleteKey(gameObject.name + "_selected_seed"); // important!
+
+            // Reset tile to tilled
+            tileCondition = Condition.Tilled;
+            UpdateVisual();
+
+            // Save tile condition
+            PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
+            Debug.Log($"After harvest: tileCondition={tileCondition}, currentPlant={(currentPlant == null ? "null" : "exists")}, ");
 
             GameManager.Instance.AddHarvest(1);
 

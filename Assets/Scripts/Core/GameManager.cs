@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections.Generic;
 using Farming;
 
 namespace Core
@@ -9,8 +10,9 @@ namespace Core
     {
         public static GameManager Instance { get; private set; }
 
+        [SerializeField] private SeedData startingSeed; // Tomato
         public int funds = 100;
-        public int seeds = 1;
+        public int seedBags = 1;
         public int harvest = 0;
 
         public int currentDay = 1;
@@ -18,6 +20,14 @@ namespace Core
         //Seed Data
         public SeedData selectedSeed;
         public SeedData[] avaiableSeeds;
+
+        // Stores how many of each seed the player owns
+        private Dictionary<SeedData, int> seedInventory = new Dictionary<SeedData, int>();
+        // Tracks how many full bags each seed type has
+        private Dictionary<SeedData, int> seedBagsPerType = new Dictionary<SeedData, int>();
+
+        private const int seedPerBag = 16;
+
 
         private TMP_Text fundsText;
         private TMP_Text seedsText;
@@ -46,8 +56,10 @@ namespace Core
             }
             // Ensure currentDay matches GameManager
             currentDay = GameManager.Instance.currentDay;
+            InitializeSeeds();
             
         }
+        
 
         private void OnEnable()
         {
@@ -78,7 +90,7 @@ namespace Core
 
         public void AddSeeds(int amount)
         {
-            seeds += amount;
+            seedBags += amount;
             UpdateUI();
         }
 
@@ -141,7 +153,12 @@ namespace Core
                 fundsText.SetText("Funds: ${0}", funds);
 
             if (seedsText != null)
-                seedsText.SetText("Seeds: {0}", seeds);
+                //int totalSeeds = 0;
+                /*
+                foreach (SeedData seed in avaiableSeeds)
+                    seedBags += seedInventory[seed]; // total seeds remaining in all types
+                */
+                seedsText.SetText("Seeds: {0}", seedBags);
             if (harvestText != null)
                 harvestText.SetText("Harvest: {0}", harvest);
             if(dayText != null)
@@ -153,7 +170,76 @@ namespace Core
             SceneManager.LoadScene(name);
         }
         // ---------------- Seed Inventory Helpers ----------------
+        public void InitializeSeeds()
+        {
+            foreach (SeedData seed in avaiableSeeds)
+            {
+                seedInventory[seed] = 0;
+                seedBagsPerType[seed] = 0;
+            }
+            seedInventory[startingSeed] = seedPerBag;
+            seedBagsPerType[startingSeed] = seedBags;
+        }
 
+        public int GetSeedCount(SeedData seed)
+        {
+            if (seedInventory.ContainsKey(seed))
+            {
+                return seedInventory[seed];
+            }
+            return 0;
+        }
+
+        // Check if player has at least 1 seed
+        public bool HasSeed(SeedData seed)
+        {
+            return GetSeedCount(seed) > 0;
+        }
+
+        // Reduce seed by 1 when planting
+        public void UseSeed(SeedData seed)
+        {
+            if (!HasSeed(seed))
+                return;
+
+            seedInventory[seed]--;
+            if(seedInventory[seed] <= 0)
+            {
+                seedInventory[seed] = 0;
+                if(seedBagsPerType[seed] > 0)
+                {
+                    seedBagsPerType[seed]--;
+                    seedBags = seedBagsPerType[seed];
+                }
+                
+            }
+            UpdateUI();
+        }
+        public int GetTotalSeeds()
+        {
+            int total = 0;
+            foreach (SeedData seed in avaiableSeeds)
+            {
+                total += GetSeedCount(seed);
+            }
+            return total;
+        }
+        public void BuySeedBag(SeedData seed)
+        {
+            // Increment bag count for this seed type
+            if (!seedBagsPerType.ContainsKey(seed))
+                seedBagsPerType[seed] = 0;
+
+            seedBagsPerType[seed]++;
+            seedBags = seedBagsPerType[seed];
+            
+            // Refill seeds for this type
+            seedInventory[seed] += seedPerBag;
+
+            // Refresh UI
+            UpdateUI();
+        }
+        /*
         public bool HasSeed(SeedData seed)
         {
             // Simple check: if player has seeds > 0
@@ -164,7 +250,7 @@ namespace Core
             seeds = Mathf.Max(0, seeds - 1);
             UpdateUI();
         }
-        
+        */
 
         public void ResetHarvest(Farming.FarmTile tile)
         {

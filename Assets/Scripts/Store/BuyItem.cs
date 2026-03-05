@@ -6,6 +6,7 @@ public class BuyItem : MonoBehaviour
     [SerializeField] private GameObject ButtonUI;
     
     [SerializeField] private GameObject Seed;
+    [SerializeField] private  SeedData seedData;
 
     [SerializeField] private int seedPrice = 50;
    
@@ -40,10 +41,12 @@ public class BuyItem : MonoBehaviour
     {
         if (playerInside)
         {
+            Debug.Log("Buying: " + seedData.seedName);
             if(seedPrice <= GameManager.Instance.funds) 
             {
                 GameManager.Instance.AddFunds(0-seedPrice);
-                GameManager.Instance.AddSeeds(1);
+                //GameManager.Instance.AddSeeds(1);
+                GameManager.Instance.BuySeedBag(seedData);
                 Seed.SetActive(false);
                 ButtonUI.SetActive(false);
             }

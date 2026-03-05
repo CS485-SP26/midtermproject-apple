@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Farm Tile
   - Sell
+  - Plant
   layers:
   - Default
   - TransparentFX
