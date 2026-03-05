@@ -231,10 +231,12 @@ namespace Core
                 seedBagsPerType[seed] = 0;
 
             seedBagsPerType[seed]++;
-            seedBags = seedBagsPerType[seed];
             
             // Refill seeds for this type
             seedInventory[seed] += seedPerBag;
+            seedBags = 0;
+            foreach (var bagCount in seedBagsPerType.Values)
+                seedBags += bagCount;
 
             // Refresh UI
             UpdateUI();
