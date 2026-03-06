@@ -193,7 +193,7 @@ namespace Farming
             Debug.Log("Harvesting plant on " + gameObject.name);
             Debug.Log($"Harvesting plant on {gameObject.name}, current state: {currentPlant.currentState}");
             
-            PlantType harvestedPlant = currentPlant.seedData.plantType;
+            PlantType harvestedPlant = currentPlant.GetPlantType();
             Debug.Log($"Harvesting plant on {gameObject.name}: {harvestedPlant} (Seed: {currentPlant.seedData.seedName})");
 
             // Destroy currentPlant if exists

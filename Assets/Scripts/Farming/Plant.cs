@@ -20,6 +20,8 @@ public class Plant : MonoBehaviour
     public SeedData seedData;
     [SerializeField] private Transform modelHolder;
     private GameObject currentModel;
+    private bool isSpecialPlant = false;
+    private PlantType plantType;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,6 +32,12 @@ public class Plant : MonoBehaviour
         seedData  = selectSeed;
         currentState = PlantState.Planted;
         dayGrown = 0;
+        if(Random.Range(0,5) == 0)
+        {
+            isSpecialPlant = true;
+            plantType = PlantType.Special;
+        }
+            
         UpdateVisual();
     }
     public void OnDayPassed(bool wasWatered)
@@ -72,7 +80,16 @@ public class Plant : MonoBehaviour
         {
             case PlantState.Planted: prefabtoSpawn = seedData.plantedModel;break;
             case PlantState.Growing: prefabtoSpawn = seedData.growingModel; break;
-            case PlantState.Mature: prefabtoSpawn = seedData.matureModel; break;
+            case PlantState.Mature: 
+                if(isSpecialPlant && seedData.specialPlantModel != null)
+                {
+                    prefabtoSpawn = seedData.specialPlantModel;
+                }
+                else
+                {
+                    prefabtoSpawn = seedData.matureModel;
+                }
+                break;
             case PlantState.Whithered: prefabtoSpawn = seedData.whitheredModel; break;
         }
         if (prefabtoSpawn != null)
@@ -82,5 +99,9 @@ public class Plant : MonoBehaviour
     public bool IsMature()
     {
         return currentState == PlantState.Mature;
+    }
+    public PlantType GetPlantType()
+    {
+        return plantType;
     }
 }

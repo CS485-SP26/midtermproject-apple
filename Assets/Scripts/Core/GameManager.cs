@@ -111,6 +111,7 @@ namespace Core
                 case PlantType.Tomato: return 5;
                 case PlantType.Onion: return 7;
                 case PlantType.Pepper: return 10;
+                case PlantType.Special: return 100;
                 default: return 0;
 
             }
