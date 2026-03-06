@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444f48d3891d29645a441dca23bc65f4, type: 3}
+  m_Name: tomato
+  m_EditorClassIdentifier: Assembly-CSharp::SeedData
+  seedName: Tomato
+  daysToMature: 3
+  plantPrefab: {fileID: 6484351045792633939, guid: fc579300bc409b745b2c42d21481e3f9, type: 3}
+  plantedModel: {fileID: 3418111879116013173, guid: 1866444ef9391674cb782b551eb0794b, type: 3}
+  growingModel: {fileID: 1358506517444299501, guid: bb564829548fd094096fee84c5110e4a, type: 3}
+  matureModel: {fileID: 8413020770524432054, guid: beb9363de30884545b8903ea11370168, type: 3}
+  whitheredModel: {fileID: 7161301951743822254, guid: 58398f64eb6638949a2ed79218e22b56, type: 3}

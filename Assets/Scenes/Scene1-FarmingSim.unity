@@ -1824,6 +1824,83 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 270971802}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &307221343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 307221344}
+  - component: {fileID: 307221346}
+  - component: {fileID: 307221345}
+  m_Layer: 5
+  m_Name: SelectSeedPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &307221344
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307221343}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1688965012}
+  - {fileID: 1045380482}
+  m_Father: {fileID: 876916362}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -5, y: -10.5}
+  m_SizeDelta: {x: 512, y: 331}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &307221345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307221343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.6830188, g: 0.6830188, b: 0.6830188, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &307221346
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307221343}
+  m_CullTransparentMesh: 1
 --- !u!1 &315949135
 GameObject:
   m_ObjectHideFlags: 0
@@ -2319,7 +2396,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 383629377}
   tillAudio: {fileID: 383629376}
   waterAudio: {fileID: 383629375}
@@ -2862,7 +2938,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 400642163}
   tillAudio: {fileID: 400642162}
   waterAudio: {fileID: 400642161}
@@ -3420,7 +3495,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 413481111}
   tillAudio: {fileID: 413481110}
   waterAudio: {fileID: 413481109}
@@ -4795,7 +4869,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 575667308}
   tillAudio: {fileID: 575667307}
   waterAudio: {fileID: 575667306}
@@ -5226,7 +5299,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 593384254}
   tillAudio: {fileID: 593384253}
   waterAudio: {fileID: 593384252}
@@ -5599,6 +5671,54 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593384249}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &605741089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 605741091}
+  - component: {fileID: 605741090}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &605741090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605741089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30168d173e10a1640b792eefa19d8e13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  seedPopupPanel: {fileID: 307221343}
+  buttonContainer: {fileID: 1045380482}
+  seedButtonPrefab: {fileID: 6607018476794401656, guid: 6498b3fcff7f4234f9e37cf6f874c4de, type: 3}
+  seedAmountPrefab: {fileID: 2159808192791299205, guid: 9a787060726161f4d927c47da9136045, type: 3}
+--- !u!4 &605741091
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605741089}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.12455, y: 0.05, z: 3.01486}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &621895048
 GameObject:
   m_ObjectHideFlags: 0
@@ -5657,7 +5777,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 621895053}
   tillAudio: {fileID: 621895052}
   waterAudio: {fileID: 621895051}
@@ -6559,7 +6678,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 749749636}
   tillAudio: {fileID: 749749635}
   waterAudio: {fileID: 749749634}
@@ -7286,7 +7404,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 818270252}
   tillAudio: {fileID: 818270251}
   waterAudio: {fileID: 818270250}
@@ -8043,6 +8160,7 @@ RectTransform:
   - {fileID: 1611336868}
   - {fileID: 1344380746}
   - {fileID: 2106463253}
+  - {fileID: 307221344}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8651,6 +8769,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1006586354}
   m_CullTransparentMesh: 1
+--- !u!1 &1045380481
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1045380482}
+  - component: {fileID: 1045380483}
+  m_Layer: 5
+  m_Name: ButtonContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1045380482
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045380481}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 307221344}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1045380483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045380481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1050106206
 GameObject:
   m_ObjectHideFlags: 0
@@ -9246,10 +9426,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550bb88b207175a489376f2e8459d91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.GameManager
+  startingSeed: {fileID: 11400000, guid: ac08918399b3192478946f28c94f4ca5, type: 2}
   funds: 100
-  seeds: 1
+  seedBags: 1
   harvest: 0
   currentDay: 1
+  selectedSeed: {fileID: 0}
+  avaiableSeeds:
+  - {fileID: 11400000, guid: ac08918399b3192478946f28c94f4ca5, type: 2}
+  - {fileID: 11400000, guid: f74953fe2fa136448b5d6e631ece2a64, type: 2}
+  - {fileID: 11400000, guid: f94f0ac26a24f4245a7bbafc8529be9c, type: 2}
 --- !u!1 &1191068388
 GameObject:
   m_ObjectHideFlags: 0
@@ -9800,7 +9986,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1259173397}
   tillAudio: {fileID: 1259173396}
   waterAudio: {fileID: 1259173395}
@@ -10928,7 +11113,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1347809123}
   tillAudio: {fileID: 1347809122}
   waterAudio: {fileID: 1347809121}
@@ -11584,7 +11768,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1381054964}
   tillAudio: {fileID: 1381054963}
   waterAudio: {fileID: 1381054962}
@@ -12015,7 +12198,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1393355534}
   tillAudio: {fileID: 1393355533}
   waterAudio: {fileID: 1393355532}
@@ -12446,7 +12628,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1403734918}
   tillAudio: {fileID: 1403734917}
   waterAudio: {fileID: 1403734916}
@@ -14932,6 +15113,143 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670784000}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1688965011
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1688965012}
+  - component: {fileID: 1688965014}
+  - component: {fileID: 1688965013}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1688965012
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688965011}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 307221344}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 8, y: 126}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1688965013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688965011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Select Seed
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1688965014
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688965011}
+  m_CullTransparentMesh: 1
 --- !u!1 &1689763864
 GameObject:
   m_ObjectHideFlags: 0
@@ -15102,7 +15420,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 1697533645}
   tillAudio: {fileID: 1697533644}
   waterAudio: {fileID: 1697533643}
@@ -17293,7 +17610,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 2056574615}
   tillAudio: {fileID: 2056574614}
   waterAudio: {fileID: 2056574613}
@@ -17836,7 +18152,6 @@ MonoBehaviour:
   grassMaterial: {fileID: 2100000, guid: 45eb7efec0c8f504285b382733758e52, type: 2}
   tilledMaterial: {fileID: 2100000, guid: 053fa0c86b03be449bd117d80d1eb19c, type: 2}
   wateredMaterial: {fileID: 2100000, guid: da86e0e9da248f44685781dc53d77c8f, type: 2}
-  plantPrefab: {fileID: 9160743346693821661, guid: 4aaf5cb530e924c4db6e5b5ad892c0f3, type: 3}
   stepAudio: {fileID: 2096229169}
   tillAudio: {fileID: 2096229168}
   waterAudio: {fileID: 2096229167}
@@ -18538,3 +18853,4 @@ SceneRoots:
   - {fileID: 333980682}
   - {fileID: 1181352383}
   - {fileID: 1760109076}
+  - {fileID: 605741091}

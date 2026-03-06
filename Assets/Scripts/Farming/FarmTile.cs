@@ -16,7 +16,7 @@ namespace Farming
         [SerializeField] private Material grassMaterial;
         [SerializeField] private Material tilledMaterial;
         [SerializeField] private Material wateredMaterial;
-        [SerializeField] private GameObject plantPrefab;
+        //[SerializeField] private GameObject plantPrefab;
         private MeshRenderer tileRenderer;
 
         [Header("Audio")]
@@ -59,23 +59,41 @@ namespace Farming
             // Load saved plant on start
             if (PlayerPrefs.HasKey(gameObject.name + "_has_plant") && PlayerPrefs.GetInt(gameObject.name + "_has_plant") == 1)
             {
-                Vector3 spawnPos = transform.position + new Vector3(0f, 0f, 0f);
-                GameObject plantObj = Instantiate(plantPrefab, spawnPos, Quaternion.identity);
-                plantObj.transform.parent = transform;
-                currentPlant = plantObj.GetComponent<Plant>();
-                if (currentPlant != null && PlayerPrefs.HasKey(gameObject.name + "_plant_state"))
+                // Load the seed type that was saved (you may need to save selectedSeedName as string)
+                string seedName = PlayerPrefs.GetString(gameObject.name + "_selected_seed", null);
+                SeedData seedData = null;
+
+                foreach (SeedData s in GameManager.Instance.avaiableSeeds)
                 {
-                    currentPlant.currentState = (Plant.PlantState)PlayerPrefs.GetInt(gameObject.name + "_plant_state");
-                    currentPlant.UpdateVisual();
+                    if (s.seedName == seedName)
+                    {
+                        seedData = s;
+                        break;
+                    }
+                }
+
+                if (seedData != null)
+                {
+                    Vector3 spawnPos = transform.position;
+                    GameObject plantObj = Instantiate(seedData.plantedModel, spawnPos, Quaternion.identity);
+                    plantObj.transform.parent = transform;
+                    currentPlant = plantObj.GetComponent<Plant>();
+                    if (currentPlant != null && PlayerPrefs.HasKey(gameObject.name + "_plant_state"))
+                    {
+                        currentPlant.currentState = (Plant.PlantState)PlayerPrefs.GetInt(gameObject.name + "_plant_state");
+                        currentPlant.PlantSeed(seedData); // Assign SeedData to Plant
+                    }
                 }
             }
         }
 
         public void Interact()
         {
+            /*
             Debug.Log("Tile: " + gameObject.name + 
           " | InstanceID: " + GetInstanceID() + 
           " | Condition: " + tileCondition);
+          */
           if(currentPlant != null && currentPlant.IsMature())
             {
                 Harvest();
@@ -126,7 +144,7 @@ namespace Farming
         private void PlantSeed()
         {
             // Check if player has seeds
-            if (GameManager.Instance.seeds <= 0)
+            if (GameManager.Instance.seedBags <= 0)
             {
                 Debug.Log("No seeds available to plant!");
                 Farmer farmer = FindFirstObjectByType<Farmer>();
@@ -134,26 +152,35 @@ namespace Farming
                 return;
                 
             }
-            Debug.Log("PlantSeed called on " + gameObject.name);
             if (currentPlant != null) return;
-            if (plantPrefab == null)
+            UIManager.Instance.OpenSeedPopUp(this);
+        }
+        public void PlanetSelectedSeed(SeedData seed)
+        {
+            if (seed == null) return;
+            if (!GameManager.Instance.HasSeed(seed)) return;
+
+            
+            Vector3 spawnPos = transform.position;
+            GameObject plantObj = Instantiate(seed.plantPrefab, spawnPos, Quaternion.identity);
+            plantObj.transform.parent = transform;
+
+            currentPlant = plantObj.GetComponent<Plant>();
+            if (currentPlant != null)
             {
-                Debug.LogWarning("No plantPrefab assigned on tile: " + gameObject.name);
+                currentPlant.PlantSeed(seed);
+                //GameManager.Instance.UseSeed(seed);
+            }
+            else
+            {
+                Debug.LogError("Planted model prefab does not have a Plant script!");
                 return;
             }
             
-            Vector3 spawnPos = transform.position + new Vector3(0f, 0f, 0f);
-            GameObject plantObj = Instantiate(plantPrefab, spawnPos, Quaternion.identity);
-            plantObj.transform.parent = transform;
-            currentPlant = plantObj.GetComponent<Plant>();
-            if (currentPlant == null)
-                Debug.LogWarning("Plant prefab does not have Plant.cs attached!");
-            else
-            {
-                // Save plant data
-                PlayerPrefs.SetInt(gameObject.name + "_has_plant", 1);
-                PlayerPrefs.SetInt(gameObject.name + "_plant_state", (int)currentPlant.currentState);
-            }
+            PlayerPrefs.SetInt(gameObject.name + "_has_plant", 1);
+            PlayerPrefs.SetInt(gameObject.name + "_plant_state", (int)currentPlant.currentState);
+            PlayerPrefs.SetString(gameObject.name + "_selected_seed", seed.seedName);
+        
         }
         public bool HasMaturePlant()
         {
@@ -164,13 +191,35 @@ namespace Farming
             if (currentPlant == null) return;
 
             Debug.Log("Harvesting plant on " + gameObject.name);
+            Debug.Log($"Harvesting plant on {gameObject.name}, current state: {currentPlant.currentState}");
 
-            Destroy(currentPlant.gameObject);
-            currentPlant = null;
+            // Destroy currentPlant if exists
+            if (currentPlant != null)
+            {
+                Destroy(currentPlant.gameObject);
+                currentPlant = null;
+            }
+            // Destroy any leftover child plant objects (to remove planted stage model)
+            foreach (Transform child in transform)
+            {
+                if (child.CompareTag("Plant"))  // Make sure your plant prefab has Tag="Plant"
+                {
+                    Destroy(child.gameObject);
+                }
+            }
 
             // Remove saved plant data
             PlayerPrefs.DeleteKey(gameObject.name + "_has_plant");
             PlayerPrefs.DeleteKey(gameObject.name + "_plant_state");
+            PlayerPrefs.DeleteKey(gameObject.name + "_selected_seed"); // important!
+
+            // Reset tile to tilled
+            tileCondition = Condition.Tilled;
+            UpdateVisual();
+
+            // Save tile condition
+            PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
+            Debug.Log($"After harvest: tileCondition={tileCondition}, currentPlant={(currentPlant == null ? "null" : "exists")}, ");
 
             GameManager.Instance.AddHarvest(1);
 
@@ -226,7 +275,8 @@ namespace Farming
         public void OnDayPassed()
         {
             daysSinceLastInteraction++;
-            bool wasWatered = tileCondition == Condition.Watered || plantWateredToday;
+            //bool wasWatered = tileCondition == Condition.Watered || plantWateredToday;
+            bool wasWatered = currentPlant != null && (tileCondition == Condition.Watered || plantWateredToday);
             if(daysSinceLastInteraction >= 2)
             {
                 if(tileCondition == FarmTile.Condition.Watered) tileCondition = FarmTile.Condition.Tilled;
