@@ -25,6 +25,7 @@ namespace Core
         private Dictionary<SeedData, int> seedInventory = new Dictionary<SeedData, int>();
         // Tracks how many full bags each seed type has
         private Dictionary<SeedData, int> seedBagsPerType = new Dictionary<SeedData, int>();
+        public Dictionary<PlantType, int> harvestInventory = new Dictionary<PlantType, int>();
 
         private const int seedPerBag = 16;
 
@@ -94,37 +95,66 @@ namespace Core
             UpdateUI();
         }
 
-        public void AddHarvest(int amount)
+        public void AddHarvest(PlantType plant, int amount)
         {
-            harvest += amount;
+            //harvest += amount;
+            if (!harvestInventory.ContainsKey(plant))
+                harvestInventory[plant] = 0;
+            harvestInventory[plant] += amount;
             UpdateUI();
+        }
+
+        public int GetPlantPrice(PlantType plant)
+        {
+            switch (plant)
+            {
+                case PlantType.Tomato: return 5;
+                case PlantType.Onion: return 7;
+                case PlantType.Pepper: return 10;
+                default: return 0;
+
+            }
         }
 
         // Reset the stored harvest to zero and refresh UI
         public void ResetHarvest()
         {
             harvest = 0;
+            harvestInventory.Clear();
             UpdateUI();
         }
         
         // variable amount to sell
-        public void SellHarvest(int amount)
+        public void SellHarvest(PlantType plant, int amount)
         {
+            if(!harvestInventory.ContainsKey(plant))return;
+            int currentAmount = harvestInventory[plant];
             // Ensure we don't sell more than we have
             int amountToSell = Mathf.Min(amount, harvest);
 
             // if we have something to sell, reduce harvest and add funds
             if (amountToSell > 0)
             {
-                harvest -= amountToSell;
-                AddFunds(amountToSell * 10);
+                harvestInventory[plant] -= amountToSell;
+                int pricePerUnit = GetPlantPrice(plant);
+                AddFunds(amountToSell * pricePerUnit);
             }
+             // Remove plant type from dictionary if amount reaches 0
+            if (harvestInventory[plant] == 0)
+                harvestInventory.Remove(plant);
         }
 
         // You can call this from a "Sell All" button in Unity
         public void SellAll() 
         {
-            SellHarvest(harvest);
+            //SellHarvest(harvest);
+            foreach (var kvp in new Dictionary<PlantType, int>(harvestInventory)) // copy to avoid modification during iteration
+            {
+                PlantType plant = kvp.Key;
+                int amount = kvp.Value;
+
+                SellHarvest(plant, amount);
+            }
         }
         
         public void SpendFunds(int amount)
@@ -147,7 +177,7 @@ namespace Core
                 currentDay = 1;
         }
 
-        private void UpdateUI()
+        public void UpdateUI()
         {
             if (fundsText != null)
                 fundsText.SetText("Funds: ${0}", funds);
@@ -159,8 +189,15 @@ namespace Core
                     seedBags += seedInventory[seed]; // total seeds remaining in all types
                 */
                 seedsText.SetText("Seeds: {0}", seedBags);
-            if (harvestText != null)
-                harvestText.SetText("Harvest: {0}", harvest);
+           if (harvestText != null)
+            {
+                int totalHarvest = 0;
+
+                foreach (var kvp in harvestInventory)
+                    totalHarvest += kvp.Value;
+
+                harvestText.SetText("Harvest: {0}", totalHarvest);
+            }
             if(dayText != null)
                 dayText.SetText("Days: {0}", currentDay);
         }

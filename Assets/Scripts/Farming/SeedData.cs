@@ -11,4 +11,6 @@ public class SeedData : ScriptableObject
     public GameObject growingModel;
     public GameObject matureModel;
     public GameObject whitheredModel;
+    public PlantType plantType;
+    
 }
