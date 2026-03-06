@@ -15,6 +15,8 @@ public class Plant : MonoBehaviour
     [SerializeField] private GameObject whitheredModel;
     */
 
+    [SerializeField] private SeasonManager seasonManager; // call instances
+
     private int dayGrown = 0;
     private int daysToMature = 3;
     public SeedData seedData;
@@ -61,6 +63,7 @@ public class Plant : MonoBehaviour
         }
         UpdateVisual();
     }
+
     public void UpdateVisual()
     {
         /*
