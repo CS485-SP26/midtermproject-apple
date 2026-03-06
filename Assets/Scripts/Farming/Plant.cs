@@ -107,4 +107,23 @@ public class Plant : MonoBehaviour
     {
         return plantType;
     }
+    // this will set the witherrate based on the season. should this be called in to change the daysToMature??
+    private int getSeasonWither()
+    {
+        var currentSeason = seasonManager.GetCurrentSeason();
+
+        switch (currentSeason)
+        {
+            case Season.SeasonType.Spring: 
+                return 2;
+            case Season.SeasonType.Summer: 
+                return 1;
+            case Season.SeasonType.Autumn: 
+                return 1;
+            case Season.SeasonType.Winter: 
+                return 0;
+            default: 
+                return 1;
+        }
+    }
 }
