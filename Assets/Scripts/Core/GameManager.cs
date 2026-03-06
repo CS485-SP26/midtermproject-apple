@@ -177,7 +177,7 @@ namespace Core
                 currentDay = 1;
         }
 
-        private void UpdateUI()
+        public void UpdateUI()
         {
             if (fundsText != null)
                 fundsText.SetText("Funds: ${0}", funds);
