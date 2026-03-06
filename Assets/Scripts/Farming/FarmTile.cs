@@ -192,6 +192,9 @@ namespace Farming
 
             Debug.Log("Harvesting plant on " + gameObject.name);
             Debug.Log($"Harvesting plant on {gameObject.name}, current state: {currentPlant.currentState}");
+            
+            PlantType harvestedPlant = currentPlant.seedData.plantType;
+            Debug.Log($"Harvesting plant on {gameObject.name}: {harvestedPlant} (Seed: {currentPlant.seedData.seedName})");
 
             // Destroy currentPlant if exists
             if (currentPlant != null)
@@ -221,7 +224,9 @@ namespace Farming
             PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
             Debug.Log($"After harvest: tileCondition={tileCondition}, currentPlant={(currentPlant == null ? "null" : "exists")}, ");
 
-            GameManager.Instance.AddHarvest(1);
+           
+            //GameManager.Instance.AddHarvest(1);
+            GameManager.Instance.AddHarvest(harvestedPlant, 1);
 
         }
 
