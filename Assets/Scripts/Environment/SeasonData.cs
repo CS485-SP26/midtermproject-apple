@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class SeasonData : MonoBehaviour
+namespace Environment
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [CreateAssetMenu(fileName = "SeasonData", menuName = "Scriptable Objects/SeasonData")]
+    
+    public class SeasonData : ScriptableObject
     {
-        
-    }
+        [Range(0f, 24f)]
+        [Tooltip("Daylight hours")]
+        public float dayLength;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        [Range(-40f, 140f)]
+        [Tooltip("Temperature in Fahrenheit")]
+        public float avgTemp;
+
+        public Color sunColor;
     }
 }

@@ -63,7 +63,7 @@ namespace Farming
                 string seedName = PlayerPrefs.GetString(gameObject.name + "_selected_seed", null);
                 SeedData seedData = null;
 
-                foreach (SeedData s in GameManager.Instance.avaiableSeeds)
+                foreach (SeedData s in GameManager.Instance.availableSeeds)
                 {
                     if (s.seedName == seedName)
                     {
@@ -144,7 +144,7 @@ namespace Farming
         private void PlantSeed()
         {
             // Check if player has seeds
-            if (GameManager.Instance.seedBags <= 0)
+            if (GameManager.Instance.GetTotalSeeds() <= 0)
             {
                 Debug.Log("No seeds available to plant!");
                 Farmer farmer = FindFirstObjectByType<Farmer>();

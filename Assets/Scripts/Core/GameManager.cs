@@ -19,7 +19,7 @@ namespace Core
 
         //Seed Data
         public SeedData selectedSeed;
-        public SeedData[] avaiableSeeds;
+        public SeedData[] availableSeeds;
 
         // Stores how many of each seed the player owns
         private Dictionary<SeedData, int> seedInventory = new Dictionary<SeedData, int>();
@@ -181,16 +181,16 @@ namespace Core
         public void UpdateUI()
         {
             if (fundsText != null)
+            {
                 fundsText.SetText("Funds: ${0}", funds);
+            }
 
             if (seedsText != null)
-                //int totalSeeds = 0;
-                /*
-                foreach (SeedData seed in avaiableSeeds)
-                    seedBags += seedInventory[seed]; // total seeds remaining in all types
-                */
-                seedsText.SetText("Seeds: {0}", seedBags);
-           if (harvestText != null)
+            {
+                seedsText.SetText("Seeds: {0}", GetTotalSeeds());
+            }
+
+            if (harvestText != null)
             {
                 int totalHarvest = 0;
 
@@ -199,8 +199,11 @@ namespace Core
 
                 harvestText.SetText("Harvest: {0}", totalHarvest);
             }
-            if(dayText != null)
+
+            if (dayText != null)
+            {
                 dayText.SetText("Days: {0}", currentDay);
+            }
         }
         
         public void LoadScenebyName(string name)
@@ -210,13 +213,17 @@ namespace Core
         // ---------------- Seed Inventory Helpers ----------------
         public void InitializeSeeds()
         {
-            foreach (SeedData seed in avaiableSeeds)
+            foreach (SeedData seed in availableSeeds)
             {
                 seedInventory[seed] = 0;
                 seedBagsPerType[seed] = 0;
             }
-            seedInventory[startingSeed] = seedPerBag;
-            seedBagsPerType[startingSeed] = seedBags;
+            if (startingSeed != null)
+            {
+                seedInventory[startingSeed] = seedPerBag;
+                seedBagsPerType[startingSeed] = 1;  // 1 bag
+                seedBags = seedPerBag;  // Update total to reflect 16 seeds
+            }
         }
 
         public int GetSeedCount(SeedData seed)
@@ -247,7 +254,10 @@ namespace Core
                 if(seedBagsPerType[seed] > 0)
                 {
                     seedBagsPerType[seed]--;
-                    seedBags = seedBagsPerType[seed];
+                    // Recalculate total seed bags from all types
+                    seedBags = 0;
+                    foreach (var bagCount in seedBagsPerType.Values)
+                        seedBags += bagCount;
                 }
                 
             }
@@ -256,7 +266,7 @@ namespace Core
         public int GetTotalSeeds()
         {
             int total = 0;
-            foreach (SeedData seed in avaiableSeeds)
+            foreach (SeedData seed in availableSeeds)
             {
                 total += GetSeedCount(seed);
             }
@@ -267,6 +277,8 @@ namespace Core
             // Increment bag count for this seed type
             if (!seedBagsPerType.ContainsKey(seed))
                 seedBagsPerType[seed] = 0;
+            if (!seedInventory.ContainsKey(seed))
+                seedInventory[seed] = 0;
 
             seedBagsPerType[seed]++;
             

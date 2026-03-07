@@ -115,13 +115,13 @@ public class Plant : MonoBehaviour
 
         switch (currentSeason)
         {
-            case Season.SeasonType.Spring: 
+            case SeasonManager.Season.Spring: 
                 return 2;
-            case Season.SeasonType.Summer: 
+            case SeasonManager.Season.Summer: 
                 return 1;
-            case Season.SeasonType.Autumn: 
+            case SeasonManager.Season.Fall: 
                 return 1;
-            case Season.SeasonType.Winter: 
+            case SeasonManager.Season.Winter: 
                 return 0;
             default: 
                 return 1;
