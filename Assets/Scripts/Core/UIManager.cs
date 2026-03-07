@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Transform buttonContainer; // parent for buttons
     [SerializeField] private GameObject seedButtonPrefab;
     [SerializeField] private GameObject seedAmountPrefab;
+    [SerializeField] private GameObject exitButton;
 
     private FarmTile selectedTile;
 
