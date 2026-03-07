@@ -28,6 +28,7 @@ public class Plant : MonoBehaviour
     public void PlantSeed(SeedData selectSeed)
     {
         seedData  = selectSeed;
+        daysToMature = Mathf.Max(1, seedData != null ? seedData.daysToMature : daysToMature);
         currentState = PlantState.Planted;
         dayGrown = 0;
         UpdateVisual();
@@ -66,6 +67,12 @@ public class Plant : MonoBehaviour
         {
             Destroy(currentModel);
         }
+
+        if (seedData == null)
+        {
+            return;
+        }
+
         GameObject prefabtoSpawn = null;
         //Show the model based on the current state
         switch (currentState)
@@ -76,7 +83,7 @@ public class Plant : MonoBehaviour
             case PlantState.Whithered: prefabtoSpawn = seedData.whitheredModel; break;
         }
         if (prefabtoSpawn != null)
-            currentModel = Instantiate(prefabtoSpawn, modelHolder);
+            currentModel = Instantiate(prefabtoSpawn, modelHolder != null ? modelHolder : transform);
     }
 
     public bool IsMature()

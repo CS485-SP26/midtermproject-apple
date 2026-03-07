@@ -143,24 +143,38 @@ namespace Farming
         }
         private void PlantSeed()
         {
-            // Check if player has seeds
-            if (GameManager.Instance.seedBags <= 0)
+            if (GameManager.Instance.GetTotalSeeds() <= 0)
             {
                 Debug.Log("No seeds available to plant!");
-                Farmer farmer = FindFirstObjectByType<Farmer>();
-                if(farmer != null) farmer.DisplayLowSeed();
+                if (farmer != null)
+                {
+                    farmer.DisplayLowSeed();
+                }
                 return;
                 
             }
             if (currentPlant != null) return;
             UIManager.Instance.OpenSeedPopUp(this);
         }
-        public void PlanetSelectedSeed(SeedData seed)
-        {
-            if (seed == null) return;
-            if (!GameManager.Instance.HasSeed(seed)) return;
 
-            
+        public bool PlantSelectedSeed(SeedData seed)
+        {
+            if (seed == null)
+            {
+                return false;
+            }
+
+            if (!GameManager.Instance.HasSeed(seed))
+            {
+                return false;
+            }
+
+            if (SeasonManager.Instance != null && !seed.IsAvailableInSeason(SeasonManager.Instance.CurrentSeason))
+            {
+                farmer?.DisplaySeasonLocked(seed, SeasonManager.Instance.CurrentSeason);
+                return false;
+            }
+
             Vector3 spawnPos = transform.position;
             GameObject plantObj = Instantiate(seed.plantPrefab, spawnPos, Quaternion.identity);
             plantObj.transform.parent = transform;
@@ -174,12 +188,20 @@ namespace Farming
             else
             {
                 Debug.LogError("Planted model prefab does not have a Plant script!");
-                return;
+                return false;
             }
+
+            tileCondition = Condition.Planted;
+            UpdateVisual();
             
             PlayerPrefs.SetInt(gameObject.name + "_has_plant", 1);
             PlayerPrefs.SetInt(gameObject.name + "_plant_state", (int)currentPlant.currentState);
             PlayerPrefs.SetString(gameObject.name + "_selected_seed", seed.seedName);
+            PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
+
+            farmer?.NotifyTilePlanted();
+
+            return true;
         
         }
         public bool HasMaturePlant()

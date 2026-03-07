@@ -17,11 +17,16 @@ namespace Character {
 
         public void Move(Vector2 lateralInput)
         {
-            moveInput = lateralInput;
+            moveInput = Vector2.ClampMagnitude(lateralInput, 1f);
         }
 
         public void Stop()
         {
+            if (rb == null)
+            {
+                return;
+            }
+
             rb.linearVelocity = Vector3.zero;
             moveInput = Vector2.zero;
         }
@@ -30,7 +35,7 @@ namespace Character {
 
         public virtual float GetHorizontalSpeedPercent()
         {
-            return moveInput == Vector2.zero ? 0f : 1f;
+            return moveInput.magnitude;
         }
 
         protected virtual void FixedUpdate()
@@ -40,11 +45,16 @@ namespace Character {
 
         void SimpleMovement()
         {
+            if (rb == null)
+            {
+                return;
+            }
+
             Vector3 movement = Vector3.zero;
             movement += transform.right * moveInput.x;
             movement += transform.forward * moveInput.y;
             movement.Normalize();
-            movement *= Time.deltaTime * acceleration;
+            movement *= Time.fixedDeltaTime * acceleration;
             rb.MovePosition(rb.position + movement);
         }
     }

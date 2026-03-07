@@ -5,7 +5,7 @@ public class SeasonalParticleController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform player;
-    [SerializeField] private ParticleSystem particleSystem;
+    [SerializeField] private ParticleSystem activeParticles;
     [SerializeField] private SeasonManager seasonManager;
     [SerializeField] private DayController dayController;
 
@@ -16,6 +16,7 @@ public class SeasonalParticleController : MonoBehaviour
     [SerializeField] private ParticleSystem winterParticles;
 
     private ParticleSystem currentPreset;
+    public SeasonManager.Season CurrentSeason { get; private set; } = SeasonManager.Season.Spring;
 
     void LateUpdate()
     {
@@ -27,6 +28,7 @@ public class SeasonalParticleController : MonoBehaviour
 
     public void UpdateSeason(SeasonManager.Season season)
     {
+        CurrentSeason = season;
         ParticleSystem preset = null;
 
         switch (season)
@@ -50,21 +52,21 @@ public class SeasonalParticleController : MonoBehaviour
 
     void ApplyPreset(ParticleSystem preset)
     {
-        if (preset == null || particleSystem == null) return;
+        if (preset == null || activeParticles == null) return;
 
         currentPreset = preset;
 
-        var main = particleSystem.main;
+        var main = activeParticles.main;
         var presetMain = preset.main;
 
         main.startColor = presetMain.startColor;
         main.startSize = presetMain.startSize;
         main.startLifetime = presetMain.startLifetime;
 
-        var emission = particleSystem.emission;
+        var emission = activeParticles.emission;
         emission.rateOverTime = preset.emission.rateOverTime;
 
-        particleSystem.Play();
+        activeParticles.Play();
     }
 
     void Update()
@@ -73,7 +75,7 @@ public class SeasonalParticleController : MonoBehaviour
         if (seasonManager.RuntimeData != null &&
             seasonManager.RuntimeData.avgTemp > 80) // simple "summer check"
         {
-            var emission = particleSystem.emission;
+            var emission = activeParticles.emission;
 
             if (dayController.DayProgressPercent > 0.25f &&
                 dayController.DayProgressPercent < 0.75f)

@@ -6,13 +6,13 @@ namespace Character {
     {
         private static readonly int SpeedHash = Animator.StringToHash("Speed");
 
-        [SerializeField] float moveSpeed; // useful to observe for debugging
+        [SerializeField] private float moveSpeed; // useful to observe for debugging
         [SerializeField] private Animator animator;
         [SerializeField] private MovementController moveController;
         private bool hasSpeedParameter;
         protected Animator Animator { get { return animator; } }
 
-        void Awake()
+        private void Awake()
         {
             if (animator == null)
             {
@@ -48,13 +48,13 @@ namespace Character {
 
         public void SetTrigger(string name)
         {
-            if (animator != null)
+            if (animator != null && !string.IsNullOrWhiteSpace(name))
             {
                 animator.SetTrigger(name);
             }
         }
 
-        void Update()
+        private void Update()
         {
             if (animator == null || moveController == null || !hasSpeedParameter) return;
 

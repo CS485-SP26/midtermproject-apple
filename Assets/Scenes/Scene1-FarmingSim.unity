@@ -8862,6 +8862,7 @@ MonoBehaviour:
   drag: 0.5
   rotationSpeed: 10
   jumpForce: 7
+  idleVelocityThreshold: 0.08
 --- !u!114 &431992761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8910,11 +8911,18 @@ MonoBehaviour:
   waterPerUse: 0.1
   staminaLevelUI: {fileID: 1845903251}
   staminaLevel: 1
-  staminaPerUse: 0.1
-  staminaRegenPerSecond: 0.05
+  staminaPerUse: 0.05
+  staminaRegenPerSecond: 0.1
   lowStaminaText: {fileID: 2106463254}
   farmTiles: []
-  rewardAmount: 50
+  fundsReward: 50
+  harvestReward: 1
+  seedRewardAmount: 3
+  rewardSeed: {fileID: 0}
+  rewardFeedUI: {fileID: 0}
+  rewardFireworks: {fileID: 0}
+  rewardAudioSource: {fileID: 0}
+  rewardClip: {fileID: 0}
   congratulationsText: {fileID: 1908044486}
   waterRefillText: {fileID: 1611336869}
   needSeedText: {fileID: 1344380747}
@@ -10540,6 +10548,7 @@ MonoBehaviour:
   buttonContainer: {fileID: 1045380482}
   seedButtonPrefab: {fileID: 6607018476794401656, guid: 6498b3fcff7f4234f9e37cf6f874c4de, type: 3}
   seedAmountPrefab: {fileID: 2159808192791299205, guid: 9a787060726161f4d927c47da9136045, type: 3}
+  popupHintText: {fileID: 0}
 --- !u!4 &605741091
 Transform:
   m_ObjectHideFlags: 0
@@ -19525,9 +19534,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DayNightControl
   sunLight: {fileID: 410087040}
   dayLabel: {fileID: 555931015}
+  seasonManager: {fileID: 2080352760}
   dayLengthSeconds: 60
   dayProgressSeconds: 0
-  currentDay: 1
   dayPassedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -32602,6 +32611,72 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2073044459}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2080352759
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2080352761}
+  - component: {fileID: 2080352760}
+  m_Layer: 0
+  m_Name: SeasonManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2080352760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080352759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aef4a9b8e3facbe41a963787eec6422a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Environment.SeasonManager
+  sunLight: {fileID: 410087040}
+  seasonLabel: {fileID: 555931015}
+  particleController: {fileID: 0}
+  seasons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  spring: {fileID: 0}
+  summer: {fileID: 0}
+  fall: {fileID: 0}
+  winter: {fileID: 0}
+  startingSeason: 1
+  startingDay: 0
+  startingDayNumber: 1
+  daysPerSeason: 7
+  currentSeason: {fileID: 0}
+  currentSeasonType: 0
+  currentDayOfWeek: 0
+  currentTimeOfDay: 0
+  currentDayNumber: 1
+  timeOfDayProgress: 0
+--- !u!4 &2080352761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080352759}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1440.0707, y: 0, z: 3740.3872}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2096229164
 GameObject:
   m_ObjectHideFlags: 0
@@ -33365,3 +33440,4 @@ SceneRoots:
   - {fileID: 608613977}
   - {fileID: 315720028}
   - {fileID: 2059010796}
+  - {fileID: 2080352761}

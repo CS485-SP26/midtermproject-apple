@@ -8,6 +8,7 @@ namespace Character
         [SerializeField] float drag = 0.5f;
         [SerializeField] float rotationSpeed = 12f;
         [SerializeField] private float jumpForce = 7f;
+        [SerializeField] private float idleVelocityThreshold = 0.08f;
         bool canJump;
         
         protected override void Awake()
@@ -19,7 +20,12 @@ namespace Character
         public override float GetHorizontalSpeedPercent()
         {
             Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-            return Mathf.Clamp01(horizontalVelocity.magnitude / maxVelocity);;
+            if (horizontalVelocity.magnitude <= idleVelocityThreshold)
+            {
+                return 0f;
+            }
+
+            return Mathf.Clamp01(horizontalVelocity.magnitude / maxVelocity);
         }
 
         public override void Jump() 
@@ -68,6 +74,12 @@ namespace Character
         {
             // Clamp horizontal velocity while preserving vertical (for jumping/falling)
             Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+
+            if (horizontalVelocity.magnitude <= idleVelocityThreshold)
+            {
+                rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
+                return;
+            }
             
             if (horizontalVelocity.magnitude > maxVelocity)
             {

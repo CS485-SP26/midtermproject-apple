@@ -3,14 +3,16 @@ using Farming;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Environment;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
     [SerializeField] private GameObject seedPopupPanel;
-    [SerializeField] private Transform buttonContainer; // parent for buttons
+    [SerializeField] private Transform buttonContainer;
     [SerializeField] private GameObject seedButtonPrefab;
     [SerializeField] private GameObject seedAmountPrefab;
+    [SerializeField] private TMP_Text popupHintText;
 
     private FarmTile selectedTile;
 
@@ -20,76 +22,108 @@ public class UIManager : MonoBehaviour
         seedPopupPanel.SetActive(false);
     }
 
+    private void OnDisable()
+    {
+        if (seedPopupPanel != null)
+        {
+            seedPopupPanel.SetActive(false);
+        }
+
+        Time.timeScale = 1f;
+    }
+
     public void OpenSeedPopUp(FarmTile tile)
     {
-        // Check if player has any seeds
         if (GameManager.Instance.GetTotalSeeds() <= 0)
         {
             Debug.Log("No seeds available, cannot open popup.");
             return;
         }
+
         selectedTile = tile;
         seedPopupPanel.SetActive(true);
         Time.timeScale = 0f;
 
-        // Clear old buttons
         foreach (Transform child in buttonContainer)
         {
             Destroy(child.gameObject);
         }
-            
+
+        SeasonManager.Season activeSeason = SeasonManager.Instance != null
+            ? SeasonManager.Instance.CurrentSeason
+            : SeasonManager.Season.Spring;
+
+        bool hasAvailableSeed = false;
+
         foreach (SeedData seed in GameManager.Instance.avaiableSeeds)
         {
-            //Create Button
             GameObject btnObj = Instantiate(seedButtonPrefab, buttonContainer);
-            btnObj.GetComponentInChildren<TMP_Text>().text = seed.seedName;
-            Debug.Log("Created button for: " + seed.seedName);
+            TMP_Text buttonText = btnObj.GetComponentInChildren<TMP_Text>();
+            bool ownsSeed = GameManager.Instance.HasSeed(seed);
+            bool inSeason = seed.IsAvailableInSeason(activeSeason);
+            bool canPlant = ownsSeed && inSeason;
+
+            if (buttonText != null)
+            {
+                buttonText.text = seed.seedName;
+            }
 
             Button btn = btnObj.GetComponent<Button>();
             if (btn != null)
             {
+                SeedData capturedSeed = seed;
+                btn.interactable = canPlant;
                 btn.onClick.AddListener(() =>
                 {
-                    SelectSeed(seed);
+                    SelectSeed(capturedSeed);
                 });
             }
             else
             {
                 Debug.LogError("Seed Button prefab does not have a Button component!");
             }
-            GameObject amountObj = Instantiate(seedAmountPrefab, buttonContainer);
-            TMP_Text amountText = amountObj.GetComponent<TMP_Text>();
-            amountText.text = "Amount: "+ GameManager.Instance.GetSeedCount(seed);
 
-            // Disable button if no seeds in inventory
-            if (!GameManager.Instance.HasSeed(seed))
-                btnObj.GetComponent<Button>().interactable = false;
-            
+            if (seedAmountPrefab != null)
+            {
+                GameObject amountObj = Instantiate(seedAmountPrefab, buttonContainer);
+                TMP_Text amountText = amountObj.GetComponent<TMP_Text>();
+                if (amountText != null)
+                {
+                    amountText.text = $"Count: {GameManager.Instance.GetSeedCount(seed)} | {seed.GetSeasonSummary()} | {(inSeason ? "Ready" : "Out of Season")}";
+                }
+            }
+
+            hasAvailableSeed |= canPlant;
+        }
+
+        if (popupHintText != null)
+        {
+            popupHintText.text = hasAvailableSeed
+                ? $"Pick a seed for {activeSeason}."
+                : $"No owned seeds can be planted during {activeSeason}.";
         }
     }
     public void SelectSeed(SeedData seed)
     {
         if (!GameManager.Instance.HasSeed(seed))
             return;
-        if(selectedTile != null)
+
+        if (selectedTile != null && selectedTile.PlantSelectedSeed(seed))
         {
-            selectedTile.PlanetSelectedSeed(seed);
+            GameManager.Instance.selectedSeed = seed;
+            GameManager.Instance.UseSeed(seed);
         }
-        GameManager.Instance.UseSeed(seed);
+
         Debug.Log("SelectSeed was called: " + seed.seedName);
-        Debug.Log("SELECT SEED CLICKED");
         
         seedPopupPanel.SetActive(false);
         Time.timeScale = 1f;
-        //GameManager.Instance.selectedSeed = seed;
-        if(selectedTile != null)
-        {
-            selectedTile.PlanetSelectedSeed(seed);
-        }
+        selectedTile = null;
     }
     public void ClosePopup()
     {
         seedPopupPanel.SetActive(false);
         Time.timeScale = 1f;
+        selectedTile = null;
     }
 }
