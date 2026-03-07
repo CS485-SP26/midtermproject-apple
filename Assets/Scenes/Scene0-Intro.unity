@@ -411,16 +411,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550bb88b207175a489376f2e8459d91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LoadScene
-  startingSeed: {fileID: 11400000, guid: ac08918399b3192478946f28c94f4ca5, type: 2}
-  funds: 105
-  seedBags: 0
+  funds: 100
+  seeds: 0
   harvest: 0
   currentDay: 1
-  selectedSeed: {fileID: 0}
-  availableSeeds:
-  - {fileID: 11400000, guid: ac08918399b3192478946f28c94f4ca5, type: 2}
-  - {fileID: 11400000, guid: f74953fe2fa136448b5d6e631ece2a64, type: 2}
-  - {fileID: 11400000, guid: f94f0ac26a24f4245a7bbafc8529be9c, type: 2}
 --- !u!1 &644770500
 GameObject:
   m_ObjectHideFlags: 0

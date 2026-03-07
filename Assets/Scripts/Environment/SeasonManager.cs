@@ -21,9 +21,9 @@ namespace Environment
         [SerializeField] private SeasonData winter;
 
         [SerializeField] private SeasonData currentSeason;
+        [SerializeField] private SeasonalParticleController particleController;
 
         private SeasonData scratchData;
-        private Season currentSeasonType = Season.Spring;
 
         // <summary>
         // safe to edit this data without destroying the original ScriptableObject asset, but it will not persist after exiting play mode
@@ -51,14 +51,14 @@ namespace Environment
 
         public void SetSeason(Season value)
         {
-            currentSeasonType = value;
             RuntimeData = seasons[(int)value];
+
+            if(particleController != null)
+            {
+                particleController.UpdateSeason(value);
+            }
         }
 
-        public Season GetCurrentSeason()
-        {
-            return currentSeasonType;
-        }
         // Update is called once per frame
         void Update()
         {
@@ -66,3 +66,4 @@ namespace Environment
         }
     }
 }
+

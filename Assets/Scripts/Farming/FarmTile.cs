@@ -63,7 +63,7 @@ namespace Farming
                 string seedName = PlayerPrefs.GetString(gameObject.name + "_selected_seed", null);
                 SeedData seedData = null;
 
-                foreach (SeedData s in GameManager.Instance.availableSeeds)
+                foreach (SeedData s in GameManager.Instance.avaiableSeeds)
                 {
                     if (s.seedName == seedName)
                     {
@@ -144,7 +144,7 @@ namespace Farming
         private void PlantSeed()
         {
             // Check if player has seeds
-            if (GameManager.Instance.GetTotalSeeds() <= 0)
+            if (GameManager.Instance.seedBags <= 0)
             {
                 Debug.Log("No seeds available to plant!");
                 Farmer farmer = FindFirstObjectByType<Farmer>();
@@ -192,9 +192,6 @@ namespace Farming
 
             Debug.Log("Harvesting plant on " + gameObject.name);
             Debug.Log($"Harvesting plant on {gameObject.name}, current state: {currentPlant.currentState}");
-            
-            PlantType harvestedPlant = currentPlant.GetPlantType();
-            Debug.Log($"Harvesting plant on {gameObject.name}: {harvestedPlant} (Seed: {currentPlant.seedData.seedName})");
 
             // Destroy currentPlant if exists
             if (currentPlant != null)
@@ -224,9 +221,7 @@ namespace Farming
             PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
             Debug.Log($"After harvest: tileCondition={tileCondition}, currentPlant={(currentPlant == null ? "null" : "exists")}, ");
 
-           
-            //GameManager.Instance.AddHarvest(1);
-            GameManager.Instance.AddHarvest(harvestedPlant, 1);
+            GameManager.Instance.AddHarvest(1);
 
         }
 

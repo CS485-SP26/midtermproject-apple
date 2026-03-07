@@ -19,5 +19,3 @@ MonoBehaviour:
   growingModel: {fileID: 1358506517444299501, guid: bb564829548fd094096fee84c5110e4a, type: 3}
   matureModel: {fileID: 8413020770524432054, guid: beb9363de30884545b8903ea11370168, type: 3}
   whitheredModel: {fileID: 7161301951743822254, guid: 58398f64eb6638949a2ed79218e22b56, type: 3}
-  specialPlantModel: {fileID: 4138111884170793939, guid: 4392cd50b3971f048bb9be32c7ae5a16, type: 3}
-  plantType: 0

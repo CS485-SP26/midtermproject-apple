@@ -143,7 +143,7 @@ namespace Farming
                             DisplayWaterLow();
                         }
                     }
-                    if(GameManager.Instance.GetTotalSeeds() <= 0)
+                    if(GameManager.Instance.seedBags <= 0)
                     {
                         DisplayLowSeed();
                     }

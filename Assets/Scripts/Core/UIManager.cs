@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Transform buttonContainer; // parent for buttons
     [SerializeField] private GameObject seedButtonPrefab;
     [SerializeField] private GameObject seedAmountPrefab;
-    [SerializeField] private GameObject exitButton;
 
     private FarmTile selectedTile;
 
@@ -39,7 +38,7 @@ public class UIManager : MonoBehaviour
             Destroy(child.gameObject);
         }
             
-        foreach (SeedData seed in GameManager.Instance.availableSeeds)
+        foreach (SeedData seed in GameManager.Instance.avaiableSeeds)
         {
             //Create Button
             GameObject btnObj = Instantiate(seedButtonPrefab, buttonContainer);
@@ -75,13 +74,18 @@ public class UIManager : MonoBehaviour
         if(selectedTile != null)
         {
             selectedTile.PlanetSelectedSeed(seed);
-            GameManager.Instance.UseSeed(seed);
         }
+        GameManager.Instance.UseSeed(seed);
         Debug.Log("SelectSeed was called: " + seed.seedName);
         Debug.Log("SELECT SEED CLICKED");
         
         seedPopupPanel.SetActive(false);
         Time.timeScale = 1f;
+        //GameManager.Instance.selectedSeed = seed;
+        if(selectedTile != null)
+        {
+            selectedTile.PlanetSelectedSeed(seed);
+        }
     }
     public void ClosePopup()
     {

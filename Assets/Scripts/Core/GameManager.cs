@@ -19,13 +19,12 @@ namespace Core
 
         //Seed Data
         public SeedData selectedSeed;
-        public SeedData[] availableSeeds;
+        public SeedData[] avaiableSeeds;
 
         // Stores how many of each seed the player owns
         private Dictionary<SeedData, int> seedInventory = new Dictionary<SeedData, int>();
         // Tracks how many full bags each seed type has
         private Dictionary<SeedData, int> seedBagsPerType = new Dictionary<SeedData, int>();
-        public Dictionary<PlantType, int> harvestInventory = new Dictionary<PlantType, int>();
 
         private const int seedPerBag = 16;
 
@@ -95,67 +94,37 @@ namespace Core
             UpdateUI();
         }
 
-        public void AddHarvest(PlantType plant, int amount)
+        public void AddHarvest(int amount)
         {
-            //harvest += amount;
-            if (!harvestInventory.ContainsKey(plant))
-                harvestInventory[plant] = 0;
-            harvestInventory[plant] += amount;
+            harvest += amount;
             UpdateUI();
-        }
-
-        public int GetPlantPrice(PlantType plant)
-        {
-            switch (plant)
-            {
-                case PlantType.Tomato: return 5;
-                case PlantType.Onion: return 7;
-                case PlantType.Pepper: return 10;
-                case PlantType.Special: return 100;
-                default: return 0;
-
-            }
         }
 
         // Reset the stored harvest to zero and refresh UI
         public void ResetHarvest()
         {
             harvest = 0;
-            harvestInventory.Clear();
             UpdateUI();
         }
         
         // variable amount to sell
-        public void SellHarvest(PlantType plant, int amount)
+        public void SellHarvest(int amount)
         {
-            if(!harvestInventory.ContainsKey(plant))return;
-            int currentAmount = harvestInventory[plant];
             // Ensure we don't sell more than we have
             int amountToSell = Mathf.Min(amount, harvest);
 
             // if we have something to sell, reduce harvest and add funds
             if (amountToSell > 0)
             {
-                harvestInventory[plant] -= amountToSell;
-                int pricePerUnit = GetPlantPrice(plant);
-                AddFunds(amountToSell * pricePerUnit);
+                harvest -= amountToSell;
+                AddFunds(amountToSell * 10);
             }
-             // Remove plant type from dictionary if amount reaches 0
-            if (harvestInventory[plant] == 0)
-                harvestInventory.Remove(plant);
         }
 
         // You can call this from a "Sell All" button in Unity
         public void SellAll() 
         {
-            //SellHarvest(harvest);
-            foreach (var kvp in new Dictionary<PlantType, int>(harvestInventory)) // copy to avoid modification during iteration
-            {
-                PlantType plant = kvp.Key;
-                int amount = kvp.Value;
-
-                SellHarvest(plant, amount);
-            }
+            SellHarvest(harvest);
         }
         
         public void SpendFunds(int amount)
@@ -178,32 +147,22 @@ namespace Core
                 currentDay = 1;
         }
 
-        public void UpdateUI()
+        private void UpdateUI()
         {
             if (fundsText != null)
-            {
                 fundsText.SetText("Funds: ${0}", funds);
-            }
 
             if (seedsText != null)
-            {
-                seedsText.SetText("Seeds: {0}", GetTotalSeeds());
-            }
-
+                //int totalSeeds = 0;
+                /*
+                foreach (SeedData seed in avaiableSeeds)
+                    seedBags += seedInventory[seed]; // total seeds remaining in all types
+                */
+                seedsText.SetText("Seeds: {0}", seedBags);
             if (harvestText != null)
-            {
-                int totalHarvest = 0;
-
-                foreach (var kvp in harvestInventory)
-                    totalHarvest += kvp.Value;
-
-                harvestText.SetText("Harvest: {0}", totalHarvest);
-            }
-
-            if (dayText != null)
-            {
+                harvestText.SetText("Harvest: {0}", harvest);
+            if(dayText != null)
                 dayText.SetText("Days: {0}", currentDay);
-            }
         }
         
         public void LoadScenebyName(string name)
@@ -213,17 +172,13 @@ namespace Core
         // ---------------- Seed Inventory Helpers ----------------
         public void InitializeSeeds()
         {
-            foreach (SeedData seed in availableSeeds)
+            foreach (SeedData seed in avaiableSeeds)
             {
                 seedInventory[seed] = 0;
                 seedBagsPerType[seed] = 0;
             }
-            if (startingSeed != null)
-            {
-                seedInventory[startingSeed] = seedPerBag;
-                seedBagsPerType[startingSeed] = 1;  // 1 bag
-                seedBags = seedPerBag;  // Update total to reflect 16 seeds
-            }
+            seedInventory[startingSeed] = seedPerBag;
+            seedBagsPerType[startingSeed] = seedBags;
         }
 
         public int GetSeedCount(SeedData seed)
@@ -254,10 +209,7 @@ namespace Core
                 if(seedBagsPerType[seed] > 0)
                 {
                     seedBagsPerType[seed]--;
-                    // Recalculate total seed bags from all types
-                    seedBags = 0;
-                    foreach (var bagCount in seedBagsPerType.Values)
-                        seedBags += bagCount;
+                    seedBags = seedBagsPerType[seed];
                 }
                 
             }
@@ -266,7 +218,7 @@ namespace Core
         public int GetTotalSeeds()
         {
             int total = 0;
-            foreach (SeedData seed in availableSeeds)
+            foreach (SeedData seed in avaiableSeeds)
             {
                 total += GetSeedCount(seed);
             }
@@ -277,8 +229,6 @@ namespace Core
             // Increment bag count for this seed type
             if (!seedBagsPerType.ContainsKey(seed))
                 seedBagsPerType[seed] = 0;
-            if (!seedInventory.ContainsKey(seed))
-                seedInventory[seed] = 0;
 
             seedBagsPerType[seed]++;
             
