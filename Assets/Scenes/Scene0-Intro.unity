@@ -412,8 +412,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LoadScene
   startingSeed: {fileID: 11400000, guid: ac08918399b3192478946f28c94f4ca5, type: 2}
-  funds: 100
-  seedBags: 1
+  funds: 105
+  seedBags: 0
   harvest: 0
   currentDay: 1
   selectedSeed: {fileID: 11400000, guid: ac08918399b3192478946f28c94f4ca5, type: 2}

@@ -104,8 +104,10 @@ public class UIManager : MonoBehaviour
     {
         if (!GameManager.Instance.HasSeed(seed))
             return;
-        if(selectedTile != null && seed.IsAvailableInSeason(SeasonManager.Instance.CurrentSeason))
+         if(selectedTile != null && SeasonManager.Instance != null && seed.IsAvailableInSeason(SeasonManager.Instance.CurrentSeason))
         {
+            Debug.Log($"Planting {seed.seedName} on tile at position {selectedTile.transform.position}");
+            selectedTile.PlanetSelectedSeed(seed);
             GameManager.Instance.selectedSeed = seed;
             GameManager.Instance.UseSeed(seed);
         }
