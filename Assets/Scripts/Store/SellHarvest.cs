@@ -89,9 +89,10 @@ public class SellHarvest : MonoBehaviour
             // Use GameManager's method to sell
             GameManager.Instance.SellHarvest(plant, amount);
             totalValue += amount * GameManager.Instance.GetPlantPrice(plant);
-            GameManager.Instance.AddFunds(totalValue);
-            GameManager.Instance.ResetHarvest();
         }
+
+        GameManager.Instance.AddFunds(totalValue);
+        GameManager.Instance.ResetHarvest();
 
         Debug.Log($"Sold all crops for ${totalValue}");
         GameManager.Instance.UpdateUI();

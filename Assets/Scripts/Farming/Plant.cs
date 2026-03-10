@@ -35,12 +35,16 @@ public class Plant : MonoBehaviour
         daysToMature = Mathf.Max(1, seedData != null ? seedData.daysToMature : daysToMature);
         currentState = PlantState.Planted;
         dayGrown = 0;
+
         if(Random.Range(0,5) == 0)
         {
             isSpecialPlant = true;
             plantType = PlantType.Special;
         }
-            
+        else
+        {
+             plantType = seedData.plantType;
+        }
         UpdateVisual();
     }
     public void OnDayPassed(bool wasWatered)

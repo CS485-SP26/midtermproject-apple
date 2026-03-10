@@ -21,3 +21,5 @@ MonoBehaviour:
   whitheredModel: {fileID: 5762350402342696382, guid: a08f0a2c3a883214699fb972486407cd, type: 3}
   specialPlantModel: {fileID: 4138111884170793939, guid: 4392cd50b3971f048bb9be32c7ae5a16, type: 3}
   plantType: 2
+  availableInAllSeasons: 1
+  allowedSeasons: 010000000200000003000000
