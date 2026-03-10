@@ -19806,7 +19806,7 @@ MonoBehaviour:
   sunLight: {fileID: 410087040}
   dayLabel: {fileID: 555931015}
   seasonManager: {fileID: 2080352760}
-  dayLengthSeconds: 60
+  dayLengthSeconds: 20
   dayProgressSeconds: 0
   dayPassedEvent:
     m_PersistentCalls:

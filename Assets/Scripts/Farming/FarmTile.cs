@@ -94,7 +94,7 @@ namespace Farming
           " | InstanceID: " + GetInstanceID() + 
           " | Condition: " + tileCondition);
           */
-          if(currentPlant != null && currentPlant.IsMature())
+          if(currentPlant != null && (currentPlant.IsMature() || currentPlant.currentState == Plant.PlantState.Whithered))
             {
                 Harvest();
                 return;
@@ -211,7 +211,8 @@ namespace Farming
         private void Harvest()
         {
             if (currentPlant == null) return;
-
+            
+            Plant.PlantState state = currentPlant.currentState;
             Debug.Log("Harvesting plant on " + gameObject.name);
             Debug.Log($"Harvesting plant on {gameObject.name}, current state: {currentPlant.currentState}");
 
@@ -243,7 +244,11 @@ namespace Farming
             PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
             Debug.Log($"After harvest: tileCondition={tileCondition}, currentPlant={(currentPlant == null ? "null" : "exists")}, ");
 
-            GameManager.Instance.AddHarvest(1);
+            // Only add to harvest if the plant is not withered
+            if (state != Plant.PlantState.Whithered)
+            {
+                GameManager.Instance.AddHarvest(1);
+            }
 
         }
 
