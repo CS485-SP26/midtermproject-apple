@@ -63,7 +63,7 @@ namespace Farming
                 string seedName = PlayerPrefs.GetString(gameObject.name + "_selected_seed", null);
                 SeedData seedData = null;
 
-                foreach (SeedData s in GameManager.Instance.avaiableSeeds)
+                foreach (SeedData s in GameManager.Instance.availableSeeds)
                 {
                     if (s.seedName == seedName)
                     {
@@ -94,7 +94,7 @@ namespace Farming
           " | InstanceID: " + GetInstanceID() + 
           " | Condition: " + tileCondition);
           */
-          if(currentPlant != null && (currentPlant.IsMature() || currentPlant.currentState == Plant.PlantState.Whithered))
+            if(currentPlant != null && (currentPlant.IsMature() || currentPlant.currentState == Plant.PlantState.Whithered))
             {
                 Harvest();
                 return;
@@ -143,38 +143,24 @@ namespace Farming
         }
         private void PlantSeed()
         {
+            // Check if player has seeds
             if (GameManager.Instance.GetTotalSeeds() <= 0)
             {
                 Debug.Log("No seeds available to plant!");
-                if (farmer != null)
-                {
-                    farmer.DisplayLowSeed();
-                }
+                Farmer farmer = FindFirstObjectByType<Farmer>();
+                if(farmer != null) farmer.DisplayLowSeed();
                 return;
                 
             }
             if (currentPlant != null) return;
             UIManager.Instance.OpenSeedPopUp(this);
         }
-
-        public bool PlantSelectedSeed(SeedData seed)
+        public void PlanetSelectedSeed(SeedData seed)
         {
-            if (seed == null)
-            {
-                return false;
-            }
+            if (seed == null) return;
+            if (!GameManager.Instance.HasSeed(seed)) return;
 
-            if (!GameManager.Instance.HasSeed(seed))
-            {
-                return false;
-            }
-
-            if (SeasonManager.Instance != null && !seed.IsAvailableInSeason(SeasonManager.Instance.CurrentSeason))
-            {
-                farmer?.DisplaySeasonLocked(seed, SeasonManager.Instance.CurrentSeason);
-                return false;
-            }
-
+            
             Vector3 spawnPos = transform.position;
             GameObject plantObj = Instantiate(seed.plantPrefab, spawnPos, Quaternion.identity);
             plantObj.transform.parent = transform;
@@ -188,20 +174,12 @@ namespace Farming
             else
             {
                 Debug.LogError("Planted model prefab does not have a Plant script!");
-                return false;
+                return;
             }
-
-            tileCondition = Condition.Planted;
-            UpdateVisual();
             
             PlayerPrefs.SetInt(gameObject.name + "_has_plant", 1);
             PlayerPrefs.SetInt(gameObject.name + "_plant_state", (int)currentPlant.currentState);
             PlayerPrefs.SetString(gameObject.name + "_selected_seed", seed.seedName);
-            PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
-
-            farmer?.NotifyTilePlanted();
-
-            return true;
         
         }
         public bool HasMaturePlant()
@@ -211,10 +189,12 @@ namespace Farming
         private void Harvest()
         {
             if (currentPlant == null) return;
-            
             Plant.PlantState state = currentPlant.currentState;
             Debug.Log("Harvesting plant on " + gameObject.name);
             Debug.Log($"Harvesting plant on {gameObject.name}, current state: {currentPlant.currentState}");
+            
+            PlantType harvestedPlant = currentPlant.GetPlantType();
+            Debug.Log($"Harvesting plant on {gameObject.name}: {harvestedPlant} (Seed: {currentPlant.seedData.seedName})");
 
             // Destroy currentPlant if exists
             if (currentPlant != null)
@@ -231,6 +211,7 @@ namespace Farming
                 }
             }
 
+
             // Remove saved plant data
             PlayerPrefs.DeleteKey(gameObject.name + "_has_plant");
             PlayerPrefs.DeleteKey(gameObject.name + "_plant_state");
@@ -244,10 +225,12 @@ namespace Farming
             PlayerPrefs.SetInt(gameObject.name + "_condition", (int)tileCondition);
             Debug.Log($"After harvest: tileCondition={tileCondition}, currentPlant={(currentPlant == null ? "null" : "exists")}, ");
 
+           
+            //GameManager.Instance.AddHarvest(1);
             // Only add to harvest if the plant is not withered
             if (state != Plant.PlantState.Whithered)
             {
-                GameManager.Instance.AddHarvest(1);
+                GameManager.Instance.AddHarvest(harvestedPlant, 1);
             }
 
         }

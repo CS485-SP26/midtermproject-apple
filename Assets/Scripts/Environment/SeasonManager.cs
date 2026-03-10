@@ -256,5 +256,10 @@ namespace Environment
             seasons[(int)Season.Summer] = summer != null ? summer : seasons[(int)Season.Summer];
             seasons[(int)Season.Fall] = fall != null ? fall : seasons[(int)Season.Fall];
         }
+
+        public Season GetCurrentSeason()
+        {
+            return currentSeasonType;
+        }
     }
 }

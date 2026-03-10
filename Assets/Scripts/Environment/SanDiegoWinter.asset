@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bd2e3d9701352f46a95c17614a9b958, type: 3}
+  m_Script: {fileID: 11500000, guid: 06bedfa2245a0ac4b9f1a6441086d8d4, type: 3}
   m_Name: SanDiegoWinter
   m_EditorClassIdentifier: Assembly-CSharp::SeasonData
-  dayLength: 10
-  avgTemp: 65
-  sunColor: {r: 0.8553459, g: 0.7905539, b: 0.5029864, a: 0}
+  dayLength: 0
+  avgTemp: 0
+  sunColor: {r: 0, g: 0, b: 0, a: 0}

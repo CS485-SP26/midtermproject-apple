@@ -12,27 +12,35 @@ namespace Environment
         [SerializeField] private Light sunLight;
         [SerializeField] private TMP_Text dayLabel;
         [SerializeField] private SeasonManager seasonManager;
-        
         [Header("Time Constraints")]
         [SerializeField] private float dayLengthSeconds = 60f;
+        //[SerializeField] private float dayProgressSeconds = 0f; // good for debugging from the editor
+        //[SerializeField] private int currentDay = 1; // Good for debugging from the editor
         [SerializeField] private float dayProgressSeconds = 0f;
         private bool dayAlreadyAdvancedThisCycle = false;
-
         public float DayProgressPercent => dayLengthSeconds <= 0f ? 0f : Mathf.Clamp01(dayProgressSeconds / dayLengthSeconds);
         public int CurrentDay => seasonManager != null ? seasonManager.CurrentDayNumber : GameManager.Instance.currentDay;
 
         public UnityEvent dayPassedEvent = new UnityEvent();
-
+        // Properties
         private void Awake()
         {
             dayProgressSeconds = 0f;
-
             if (seasonManager == null)
             {
                 seasonManager = FindFirstObjectByType<SeasonManager>();
             }
 
             if (sunLight == null)
+            {
+                sunLight = FindFirstObjectByType<Light>();
+            }
+
+            if (seasonManager != null)
+            {
+                seasonManager.RefreshLabel();
+            }
+            else if (GameManager.Instance != null)
             {
                 sunLight = FindFirstObjectByType<Light>();
             }
@@ -50,11 +58,11 @@ namespace Environment
         public void AdvanceDay()
         {
             dayProgressSeconds = 0f;
-
             if (seasonManager != null)
             {
                 seasonManager.AdvanceDay();
             }
+
             else if (GameManager.Instance != null)
             {
                 GameManager.Instance.currentDay++;

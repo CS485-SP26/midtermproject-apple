@@ -74,7 +74,6 @@ namespace Character
         {
             // Clamp horizontal velocity while preserving vertical (for jumping/falling)
             Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-
             if (horizontalVelocity.magnitude <= idleVelocityThreshold)
             {
                 rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);

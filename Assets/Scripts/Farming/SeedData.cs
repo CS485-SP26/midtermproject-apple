@@ -1,18 +1,21 @@
-using Environment;
 using UnityEngine;
-
+using Farming;
+using Environment;
 [CreateAssetMenu(fileName = "NewSeed", menuName = "Farming/SeedData")]
 public class SeedData : ScriptableObject
 {
     public string seedName;
     public int daysToMature = 3;
     public GameObject plantPrefab; 
+    bool isSpecialSeed;
 
     public GameObject plantedModel;
     public GameObject growingModel;
     public GameObject matureModel;
     public GameObject whitheredModel;
-
+    public GameObject specialPlantModel;
+    public PlantType plantType;
+    
     [Header("Season Availability")]
     public bool availableInAllSeasons = true;
     public SeasonManager.Season[] allowedSeasons;

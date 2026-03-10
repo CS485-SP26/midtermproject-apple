@@ -12,8 +12,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Transform buttonContainer;
     [SerializeField] private GameObject seedButtonPrefab;
     [SerializeField] private GameObject seedAmountPrefab;
+    [SerializeField] private GameObject exitButton;
     [SerializeField] private TMP_Text popupHintText;
-
     private FarmTile selectedTile;
 
     void Awake()
@@ -21,7 +21,6 @@ public class UIManager : MonoBehaviour
         Instance = this;
         seedPopupPanel.SetActive(false);
     }
-
     private void OnDisable()
     {
         if (seedPopupPanel != null)
@@ -31,7 +30,6 @@ public class UIManager : MonoBehaviour
 
         Time.timeScale = 1f;
     }
-
     public void OpenSeedPopUp(FarmTile tile)
     {
         if (GameManager.Instance.GetTotalSeeds() <= 0)
@@ -48,14 +46,13 @@ public class UIManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-
         SeasonManager.Season activeSeason = SeasonManager.Instance != null
             ? SeasonManager.Instance.CurrentSeason
             : SeasonManager.Season.Spring;
 
         bool hasAvailableSeed = false;
 
-        foreach (SeedData seed in GameManager.Instance.avaiableSeeds)
+        foreach (SeedData seed in GameManager.Instance.availableSeeds)
         {
             GameObject btnObj = Instantiate(seedButtonPrefab, buttonContainer);
             TMP_Text buttonText = btnObj.GetComponentInChildren<TMP_Text>();
@@ -82,7 +79,6 @@ public class UIManager : MonoBehaviour
             {
                 Debug.LogError("Seed Button prefab does not have a Button component!");
             }
-
             if (seedAmountPrefab != null)
             {
                 GameObject amountObj = Instantiate(seedAmountPrefab, buttonContainer);
@@ -103,12 +99,12 @@ public class UIManager : MonoBehaviour
                 : $"No owned seeds can be planted during {activeSeason}.";
         }
     }
+    
     public void SelectSeed(SeedData seed)
     {
         if (!GameManager.Instance.HasSeed(seed))
             return;
-
-        if (selectedTile != null && selectedTile.PlantSelectedSeed(seed))
+        if(selectedTile != null && seed.IsAvailableInSeason(SeasonManager.Instance.CurrentSeason))
         {
             GameManager.Instance.selectedSeed = seed;
             GameManager.Instance.UseSeed(seed);

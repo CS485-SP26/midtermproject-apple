@@ -356,13 +356,13 @@ namespace Farming
                     GameManager.Instance.AddFunds(fundsReward);
                     rewards.Add(new GameplayReward(GameplayRewardType.Funds, fundsReward, "Funds"));
                 }
-
+                /*
                 if (harvestReward > 0)
                 {
                     GameManager.Instance.AddHarvest(harvestReward);
                     rewards.Add(new GameplayReward(GameplayRewardType.Harvest, harvestReward, "Harvest Bonus"));
                 }
-
+                */
                 SeedData grantedSeed = rewardSeed != null ? rewardSeed : GameManager.Instance.GetDefaultSeed();
                 if (grantedSeed != null && seedRewardAmount > 0)
                 {
@@ -578,4 +578,3 @@ namespace Farming
         }
     }
 }
-

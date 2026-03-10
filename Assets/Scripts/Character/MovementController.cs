@@ -26,7 +26,6 @@ namespace Character {
             {
                 return;
             }
-
             rb.linearVelocity = Vector3.zero;
             moveInput = Vector2.zero;
         }
@@ -49,7 +48,6 @@ namespace Character {
             {
                 return;
             }
-
             Vector3 movement = Vector3.zero;
             movement += transform.right * moveInput.x;
             movement += transform.forward * moveInput.y;

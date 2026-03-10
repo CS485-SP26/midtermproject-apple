@@ -15,11 +15,15 @@ public class Plant : MonoBehaviour
     [SerializeField] private GameObject whitheredModel;
     */
 
+    [SerializeField] private SeasonManager seasonManager; // call instances
+
     private int dayGrown = 0;
     private int daysToMature = 3;
     public SeedData seedData;
     [SerializeField] private Transform modelHolder;
     private GameObject currentModel;
+    private bool isSpecialPlant = false;
+    private PlantType plantType;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,6 +35,16 @@ public class Plant : MonoBehaviour
         daysToMature = Mathf.Max(1, seedData != null ? seedData.daysToMature : daysToMature);
         currentState = PlantState.Planted;
         dayGrown = 0;
+
+        if(Random.Range(0,5) == 0)
+        {
+            isSpecialPlant = true;
+            plantType = PlantType.Special;
+        }
+        else
+        {
+             plantType = seedData.plantType;
+        }
         UpdateVisual();
     }
     public void OnDayPassed(bool wasWatered)
@@ -54,6 +68,7 @@ public class Plant : MonoBehaviour
         }
         UpdateVisual();
     }
+
     public void UpdateVisual()
     {
         /*
@@ -67,27 +82,61 @@ public class Plant : MonoBehaviour
         {
             Destroy(currentModel);
         }
-
         if (seedData == null)
         {
             return;
         }
-
         GameObject prefabtoSpawn = null;
         //Show the model based on the current state
         switch (currentState)
         {
             case PlantState.Planted: prefabtoSpawn = seedData.plantedModel;break;
             case PlantState.Growing: prefabtoSpawn = seedData.growingModel; break;
-            case PlantState.Mature: prefabtoSpawn = seedData.matureModel; break;
+            case PlantState.Mature: 
+                if(isSpecialPlant && seedData.specialPlantModel != null)
+                {
+                    prefabtoSpawn = seedData.specialPlantModel;
+                }
+                else
+                {
+                    prefabtoSpawn = seedData.matureModel;
+                }
+                break;
             case PlantState.Whithered: prefabtoSpawn = seedData.whitheredModel; break;
         }
-        if (prefabtoSpawn != null)
+        if (prefabtoSpawn != null) {
             currentModel = Instantiate(prefabtoSpawn, modelHolder != null ? modelHolder : transform);
+        }
     }
 
     public bool IsMature()
     {
         return currentState == PlantState.Mature;
     }
+    public PlantType GetPlantType()
+    {
+        return plantType;
+    }
+    // this will set the witherrate based on the season. should this be called in to change the daysToMature??
+    
+    private int getSeasonWither()
+    {
+        var currentSeason = seasonManager.GetCurrentSeason();
+
+        switch (currentSeason)
+        {
+            case SeasonManager.Season.Spring: 
+                return 2;
+            case SeasonManager.Season.Summer: 
+                return 1;
+            case SeasonManager.Season.Fall: 
+                return 1;
+            case SeasonManager.Season.Winter: 
+                return 0;
+            default: 
+                return 1;
+        }
+    }
+    
+    
 }
