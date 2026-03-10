@@ -1,5 +1,6 @@
 using UnityEngine;
 using Farming;
+using Environment;
 [CreateAssetMenu(fileName = "NewSeed", menuName = "Farming/SeedData")]
 public class SeedData : ScriptableObject
 {
@@ -15,4 +16,35 @@ public class SeedData : ScriptableObject
     public GameObject specialPlantModel;
     public PlantType plantType;
     
+    [Header("Season Availability")]
+    public bool availableInAllSeasons = true;
+    public SeasonManager.Season[] allowedSeasons;
+
+    public bool IsAvailableInSeason(SeasonManager.Season season)
+    {
+        if (availableInAllSeasons || allowedSeasons == null || allowedSeasons.Length == 0)
+        {
+            return true;
+        }
+
+        foreach (SeasonManager.Season allowedSeason in allowedSeasons)
+        {
+            if (allowedSeason == season)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public string GetSeasonSummary()
+    {
+        if (availableInAllSeasons || allowedSeasons == null || allowedSeasons.Length == 0)
+        {
+            return "All Seasons";
+        }
+
+        return string.Join(", ", allowedSeasons);
+    }
 }

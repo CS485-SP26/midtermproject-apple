@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections.Generic;
 using Farming;
-
+using Environment;
 namespace Core
 {
     public class GameManager:MonoBehaviour
@@ -56,9 +56,12 @@ namespace Core
                 PlayerPrefs.DeleteKey("Farm Tile " + i + "_plant_state");
             }
             // Ensure currentDay matches GameManager
-            currentDay = GameManager.Instance.currentDay;
-            InitializeSeeds();
-            
+            PlayerPrefs.DeleteKey("CurrentDay");
+
+            LoadDay();
+            currentDay = Mathf.Max(1, currentDay);
+            SetDay(currentDay);
+            InitializeSeeds();            
         }
         
 
@@ -74,6 +77,7 @@ namespace Core
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            Time.timeScale = 1f;
             // Find UI in the newly loaded scene
             fundsText = GameObject.Find("FundsText")?.GetComponent<TMP_Text>();
             seedsText = GameObject.Find("SeedsText")?.GetComponent<TMP_Text>();
@@ -81,6 +85,7 @@ namespace Core
             dayText = GameObject.Find("DayLabel")?.GetComponent<TMP_Text>();
 
             UpdateUI();
+            SeasonManager.Instance?.RefreshLabel();
         }
 
         public void AddFunds(int amount)
@@ -200,7 +205,7 @@ namespace Core
                 harvestText.SetText("Harvest: {0}", totalHarvest);
             }
 
-            if (dayText != null)
+            if (dayText != null && SeasonManager.Instance != null)
             {
                 dayText.SetText("Days: {0}", currentDay);
             }
@@ -223,6 +228,7 @@ namespace Core
                 seedInventory[startingSeed] = seedPerBag;
                 seedBagsPerType[startingSeed] = 1;  // 1 bag
                 seedBags = seedPerBag;  // Update total to reflect 16 seeds
+                selectedSeed = startingSeed;
             }
         }
 
@@ -271,6 +277,28 @@ namespace Core
                 total += GetSeedCount(seed);
             }
             return total;
+        }
+
+        public SeedData GetDefaultSeed()
+        {
+            return startingSeed;
+        }
+
+        public void AddSeedInventory(SeedData seed, int amount)
+        {
+            if (seed == null || amount <= 0)
+            {
+                return;
+            }
+
+            if (!seedInventory.ContainsKey(seed))
+            {
+                seedInventory[seed] = 0;
+                seedBagsPerType[seed] = 0;
+            }
+
+            seedInventory[seed] += amount;
+            UpdateUI();
         }
         public void BuySeedBag(SeedData seed)
         {
